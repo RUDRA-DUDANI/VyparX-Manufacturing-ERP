@@ -1,0 +1,7 @@
+/**
+ * VyaparX ERP - Sales Order Processing Stylesheet
+ * Imports core ERP theme and sales tracking overrides.
+ */
+
+/* Module styles for sales */
+@import url("./erp.css?v=20261101-modal-layout");

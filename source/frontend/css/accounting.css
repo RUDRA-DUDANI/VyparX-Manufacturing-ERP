@@ -1,0 +1,7 @@
+/**
+ * VyaparX ERP - Accounting Module Stylesheet
+ * Imports core ERP theme and allows module-specific styling overrides.
+ */
+
+/* Module styles for accounting */
+@import url("./erp.css?v=20261101-modal-layout");

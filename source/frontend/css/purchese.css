@@ -1,0 +1,7 @@
+/**
+ * VyaparX ERP - Purchase & Procurement Stylesheet
+ * Imports core ERP theme and vendor procurement overrides.
+ */
+
+/* Module styles for purchese */
+@import url("./erp.css?v=20261101-modal-layout");

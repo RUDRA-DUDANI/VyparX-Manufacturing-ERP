@@ -1,0 +1,7 @@
+/**
+ * VyaparX ERP - Logistics & Fleet Transport Stylesheet
+ * Imports core ERP theme and dispatch dashboard overrides.
+ */
+
+/* Module styles for transport */
+@import url("./erp.css?v=20261101-modal-layout");

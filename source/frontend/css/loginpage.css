@@ -1,0 +1,635 @@
+/**
+ * VyaparX ERP - Sign-In & Authentication Stylesheet
+ * Responsive split-screen login layout, form components, and modals.
+ */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  background: #f5f7fb;
+  color: #172033;
+  min-height: 100vh;
+}
+
+button,
+input,
+select {
+  font-family: inherit;
+}
+
+.page {
+  min-height: 100vh;
+  display: flex;
+}
+
+/* =========================
+       LEFT BRAND PANEL
+    ========================== */
+
+.brand-panel {
+  width: 48%;
+  min-height: 100vh;
+  background: #101b33;
+  color: white;
+  padding: 58px 65px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.logo {
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+.logo span {
+  color: #4d8dff;
+} 
+.brand-content {
+  max-width: 560px;
+}
+
+.brand-content h1 {
+  font-size: 44px;
+  line-height: 1.2;
+  font-weight: 700;
+  margin-bottom: 22px;
+}
+
+.brand-content h1 span {
+  color: #5b9aff;
+}
+
+.brand-content p {
+  color: #b9c3d7;
+  line-height: 1.8;
+  font-size: 15px;
+  max-width: 500px;
+}
+
+.trust-points {
+  margin-top: 35px;
+  display: grid;
+  gap: 15px;
+}
+
+.trust-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #dce4f3;
+  font-size: 14px;
+}
+
+.trust-icon {
+  width: 27px;
+  height: 27px;
+  border-radius: 50%;
+  background: rgba(91, 154, 255, 0.15);
+  color: #69a2ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.copyright {
+  color: #77839c;
+  font-size: 12px;
+}
+
+/* =========================
+       RIGHT LOGIN PANEL
+    ========================== */
+
+.form-panel {
+  width: 52%;
+  min-height: 100vh;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 45px;
+}
+
+.login-container {
+  width: 100%;
+  max-width: 470px;
+}
+
+.form-heading {
+  margin-bottom: 30px;
+}
+
+.form-heading .small-title {
+  color: #4d8dff;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  margin-bottom: 8px;
+}
+
+.form-heading h2 {
+  font-size: 32px;
+  color: #172033;
+  margin-bottom: 8px;
+}
+
+.form-heading p {
+  color: #7a8498;
+  font-size: 14px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: #30394d;
+  margin-bottom: 8px;
+}
+
+.input-wrapper {
+  position: relative;
+}
+
+.input,
+.select {
+  width: 100%;
+  height: 52px;
+  border: 1px solid #dfe4ec;
+  border-radius: 14px;
+  background: #fbfcfe;
+  padding: 0 16px;
+  color: #172033;
+  font-size: 14px;
+  outline: none;
+  transition: 0.2s ease;
+}
+
+.input:focus,
+.select:focus {
+  border-color: #5b9aff;
+  background: #ffffff;
+  box-shadow: 0 0 0 4px rgba(91, 154, 255, 0.1);
+}
+
+.input.error,
+.select.error {
+  border-color: #e05252;
+  box-shadow: 0 0 0 4px rgba(224, 82, 82, 0.07);
+}
+
+.input.success,
+.select.success {
+  border-color: #35a66f;
+}
+
+.password-input {
+  padding-right: 55px;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: #758096;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.password-toggle:hover {
+  color: #4d8dff;
+}
+
+.field-error {
+  color: #d84a4a;
+  font-size: 12px;
+  margin-top: 7px;
+  display: none;
+}
+
+.field-error.show {
+  display: block;
+}
+
+/* =========================
+       PASSWORD REQUIREMENTS
+    ========================== */
+
+.password-requirements {
+  margin-top: 10px;
+  padding: 13px 14px;
+  border-radius: 12px;
+  background: #f7f9fc;
+  border: 1px solid #e8ecf3;
+}
+
+.password-requirements-title {
+  font-size: 11px;
+  font-weight: 600;
+  color: #69758a;
+  margin-bottom: 8px;
+}
+
+.requirements-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px 10px;
+}
+
+.requirement {
+  font-size: 11px;
+  color: #8993a5;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.requirement-icon {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  border: 1px solid #cbd2de;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  flex-shrink: 0;
+}
+
+.requirement.valid {
+  color: #27905f;
+}
+
+.requirement.valid .requirement-icon {
+  background: #27905f;
+  border-color: #27905f;
+  color: white;
+}
+
+.caps-warning {
+  display: none;
+  margin-top: 7px;
+  color: #c17b18;
+  font-size: 11px;
+}
+
+/* =========================
+       OPTIONS
+    ========================== */
+
+.form-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 5px 0 22px;
+}
+
+.remember {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #707b90;
+  font-size: 12px;
+}
+
+.remember input {
+  accent-color: #4d8dff;
+}
+
+.forgot {
+  border: none;
+  background: none;
+  color: #4d8dff;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* =========================
+       BUTTON
+    ========================== */
+
+.signin-btn {
+  width: 100%;
+  height: 53px;
+  border: none;
+  border-radius: 14px;
+  background: #4d8dff;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.signin-btn:hover {
+  background: #3d7eea;
+  transform: translateY(-1px);
+}
+
+.signin-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.registration-link {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 13px;
+  color: #7a8498;
+}
+
+.registration-link button {
+  border: none;
+  background: transparent;
+  color: #4d8dff;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.security-note {
+  margin-top: 27px;
+  padding: 13px 15px;
+  border-radius: 12px;
+  background: #f7f9fc;
+  color: #7a8498;
+  font-size: 11px;
+  line-height: 1.6;
+  text-align: center;
+}
+
+/* =========================
+       MODAL
+    ========================== */
+
+html:has(.modal-overlay.active),
+body:has(.modal-overlay.active) {
+  overflow: hidden;
+}
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(13, 22, 40, 0.58);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: max(12px, env(safe-area-inset-top, 0px)) 12px max(12px, env(safe-area-inset-bottom, 0px));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  z-index: 1000;
+}
+
+.modal-overlay.active {
+  display: flex;
+}
+
+.modal {
+  width: 100%;
+  max-width: min(480px, calc(100vw - 24px));
+  background: white;
+  border-radius: 20px;
+  padding: 32px;
+  position: relative;
+  max-height: calc(100vh - 24px);
+  max-height: calc(100dvh - 24px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+.modal-close {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: -12px -12px -32px auto;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 50%;
+  background: #f1f4f8;
+  color: #657086;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.modal h3 {
+  font-size: 22px;
+  margin-bottom: 7px;
+}
+
+.modal-description {
+  font-size: 13px;
+  color: #7a8498;
+  margin-bottom: 22px;
+}
+
+/* =========================
+       REGISTRATION STEPS
+    ========================== */
+
+.registration-steps {
+  display: flex;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.step {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.step:last-child {
+  flex: 0;
+}
+
+.step-circle {
+  width: 30px;
+  height: 30px;
+  min-width: 30px;
+  border-radius: 50%;
+  background: #eef2f7;
+  color: #8993a5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.step.active .step-circle,
+.step.completed .step-circle {
+  background: #4d8dff;
+  color: white;
+}
+
+.step-line {
+  height: 2px;
+  flex: 1;
+  background: #e6eaf0;
+  margin: 0 8px;
+}
+
+.step.completed .step-line {
+  background: #4d8dff;
+}
+
+.registration-step-content {
+  display: none;
+}
+
+.registration-step-content.active {
+  display: block;
+}
+
+.registration-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.registration-grid .form-group {
+  margin-bottom: 15px;
+}
+
+.registration-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.secondary-btn,
+.primary-btn {
+  height: 48px;
+  border-radius: 13px;
+  border: none;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.secondary-btn {
+  width: 35%;
+  background: #f0f3f7;
+  color: #68748a;
+}
+
+.primary-btn {
+  width: 65%;
+  background: #4d8dff;
+  color: white;
+}
+
+.registration-success {
+  display: none;
+  text-align: center;
+  padding: 25px 10px;
+}
+
+.registration-success.active {
+  display: block;
+}
+
+.success-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: #e7f7ef;
+  color: #27905f;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+  font-size: 26px;
+}
+
+.registration-success h3 {
+  margin-bottom: 8px;
+}
+
+.registration-success p {
+  color: #7a8498;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+/* =========================
+       RESPONSIVE
+    ========================== */
+
+@media (max-width: 900px) {
+  .page {
+    flex-direction: column;
+  }
+
+  .brand-panel,
+  .form-panel {
+    width: 100%;
+  }
+
+  .brand-panel {
+    min-height: auto;
+    padding: 40px 30px;
+    gap: 50px;
+  }
+
+  .brand-content h1 {
+    font-size: 34px;
+  }
+
+  .form-panel {
+    min-height: auto;
+    padding: 45px 25px;
+  }
+}
+
+@media (max-width: 560px) {
+  .brand-panel {
+    padding: 30px 22px;
+  }
+
+  .brand-content h1 {
+    font-size: 29px;
+  }
+
+  .form-panel {
+    padding: 35px 18px;
+  }
+
+  .form-heading h2 {
+    font-size: 27px;
+  }
+
+  .requirements-list {
+    grid-template-columns: 1fr;
+  }
+
+  .registration-grid {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .modal {
+    padding: 25px 20px;
+  }
+}

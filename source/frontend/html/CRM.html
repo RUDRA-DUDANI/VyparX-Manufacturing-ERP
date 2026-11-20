@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+
+    <title>VyaparX ERP – CRM</title>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <link rel="stylesheet" href="../css/erp.css?v=20261101-modal-layout" />
+    <link rel="stylesheet" href="./CRM.css?v=20261101-quote-modal-white" />
+    <link rel="icon" type="image/png" href="../assets/logo.png" />
+  </head>
+
+  <body>
+    <!-- Sidebar -->
+    <aside id="sb"></aside>
+
+    <!-- Top Header -->
+    <header>
+      <button class="ic" id="mb" aria-label="Menu" type="button">
+        ☰
+      </button>
+
+      <button class="ic" id="ct" aria-label="Collapse sidebar" type="button">
+        ⇆
+      </button>
+
+      <div>
+        <h1 id="pt"></h1>
+        <div class="bc" id="bc"></div>
+      </div>
+
+      <!-- Global CRM Search -->
+      <input
+        class="in srch"
+        id="gs"
+        type="search"
+        placeholder="Search leads, press Enter"
+        aria-label="Search leads"
+      />
+
+      <!-- Notifications -->
+      <button class="ic" id="bell" aria-label="Notifications" type="button" title="Notifications">
+        <i class="fa-solid fa-bell"></i><span class="dot" id="nc"></span>
+      </button>
+
+      <!-- Theme Toggle -->
+      <button
+        class="ic"
+        id="th"
+        aria-label="Toggle theme"
+        type="button"
+      >
+        ◐
+      </button>
+
+      <!-- User Profile -->
+      <div class="av" id="employee-avatar" aria-hidden="true">AM</div>
+
+      <div style="line-height: 1.2">
+        <b style="font-weight: 500" id="employee-name">Loading profile…</b>
+        <div class="bc" id="employee-role">CRM Head</div>
+      </div>
+    </header>
+
+    <!-- Main CRM Content -->
+    <main id="mn"></main>
+
+    <!-- Toast Notifications -->
+    <div id="toast" role="status" aria-live="polite"></div>
+
+    <!-- CRM JavaScript -->
+    <script src="../javascript/auth.js"></script>
+    <script src="../javascript/erp-shared.js"></script>
+    <script src="../javascript/guard.js"></script>
+    <script src="../javascript/custom-fields.js"></script>
+    <script src="../javascript/CRM.js"></script>
+  </body>
+</html>

@@ -1,0 +1,1054 @@
+/* ==========================================================================
+   VyaparX ERP - Core Layout & UI Design System
+   Shared styling across all ERP dashboard modules (Sidebar, Header, Tables, Modals)
+   ========================================================================== */
+/* --- 1. CSS Custom Properties & Themes --- */
+:root {
+  --bg: #0b1226;
+  --card: #121b36;
+  --tx: #e8edfb;
+  --mut: #93a0c0;
+  --bd: #223058;
+  --pri: #4f7cff;
+  --pt: #9db8ff;
+  --pri2: #1a2a58;
+  --acc: #6a4fe0;
+  --ok: #4cc38a;
+  --okb: #10332a;
+  --wa: #f0b24a;
+  --wab: #3a2c0a;
+  --er: #ff8a7a;
+  --erb: #3a1814;
+  --sbw: 248px;
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+:root[data-theme="light"] {
+  --bg: #f6f8fc;
+  --card: #fff;
+  --tx: #0f1b3d;
+  --mut: #6b7691;
+  --bd: #e6eaf3;
+  --pri: #1746c8;
+  --pt: #1746c8;
+  --pri2: #e9effd;
+  --ok: #16895a;
+  --okb: #e5f6ee;
+  --wa: #a86a00;
+  --wab: #fff3dc;
+  --er: #c0392b;
+  --erb: #fdeceb;
+}
+html {
+  scroll-padding-top: env(safe-area-inset-top, 0px);
+}
+* {
+  box-sizing: border-box;
+}
+/* --- 2. Base Typography & Resets --- */
+body {
+  margin: 0;
+  font:
+    400 14px/1.5 Poppins,
+    system-ui,
+    sans-serif;
+  background: var(--bg);
+  color: var(--tx);
+}
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+/* --- 3. Sidebar Navigation --- */
+aside {
+  position: fixed;
+  inset: 0 auto 0 0;
+  width: var(--sbw);
+  background: var(--card);
+  border-right: 1px solid var(--bd);
+  padding: 16px 12px;
+  overflow-y: auto;
+  transition:
+    transform 0.2s,
+    width 0.2s;
+  z-index: 20;
+}
+.logo {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 4px 8px 14px;
+}
+.logo b {
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+}
+.logo small {
+  display: block;
+  color: var(--mut);
+  font-size: 11px;
+  margin-top: -4px;
+}
+.sec {
+  font-size: 11px;
+  color: var(--mut);
+  padding: 14px 10px 4px;
+  font-weight: 500;
+}
+.nav {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  width: 100%;
+  padding: 9px 10px;
+  border: 0;
+  background: none;
+  border-radius: 10px;
+  cursor: pointer;
+  color: var(--mut);
+  text-align: left;
+  transition:
+    background 0.15s,
+    color 0.15s;
+}
+.nav:hover {
+  background: var(--bg);
+  color: var(--tx);
+}
+.nav.on {
+  background: var(--pri2);
+  color: var(--pt);
+  font-weight: 500;
+}
+.nav svg {
+  flex: none;
+}
+.col aside {
+  width: 68px;
+}
+.col .nav span,
+.col .sec,
+.col .logo div {
+  display: none;
+}
+.col main,
+.col /* --- 4. Sticky Header & Search Bar --- */
+header {
+  margin-left: 68px;
+}
+header {
+  position: sticky;
+  top: env(safe-area-inset-top, 0px);
+  margin-left: var(--sbw);
+  height: 64px;
+  background: var(--card);
+  border-bottom: 1px solid var(--bd);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 24px;
+  z-index: 10;
+  transition: margin 0.2s;
+}
+header h1 {
+  font-size: 16px;
+  margin: 0;
+  font-weight: 600;
+  white-space: nowrap;
+}
+header .bc {
+  font-size: 11px;
+  color: var(--mut);
+}
+.srch {
+  flex: 1;
+  max-width: 380px;
+  margin-left: auto;
+}
+input.in,
+select.in,
+textarea.in {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid var(--bd);
+  border-radius: 10px;
+  background: var(--bg);
+  outline: 0;
+}
+.in:focus,
+.nav:focus-visible,
+.btn:focus-visible {
+  outline: 2px solid var(--pri);
+  outline-offset: 1px;
+}
+.ic {
+  position: relative;
+  border: 0;
+  background: none;
+  padding: 8px;
+  border-radius: 10px;
+  cursor: pointer;
+  color: var(--mut);
+}
+.ic:hover {
+  background: var(--bg);
+}
+.dot {
+  position: absolute;
+  top: 4px;
+  right: 3px;
+  background: var(--er);
+  color: #fff;
+  font-size: 9px;
+  border-radius: 9px;
+  padding: 0 5px;
+}
+.av {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--pri);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  font-weight: 500;
+  font-size: 13px;
+}
+/* --- 5. Main Content Area & Layout Grid --- */
+main {
+  margin-left: var(--sbw);
+  padding: 24px;
+  transition: margin 0.2s;
+  max-width: 1400px;
+}
+.ph {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: flex-start;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+}
+.ph h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+}
+.ph p {
+  margin: 2px 0 0;
+  color: var(--mut);
+}
+.btn {
+  border: 1px solid var(--bd);
+  background: var(--card);
+  padding: 8px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 500;
+}
+.btn:hover {
+  background: var(--bg);
+}
+.btn.p {
+  background: var(--pri);
+  border-color: var(--pri);
+  color: #fff;
+}
+.btn.p:hover {
+  opacity: 0.92;
+}
+.btn.s {
+  padding: 4px 10px;
+  font-size: 12px;
+}
+/* Keep icon-only actions visually light, with the existing accessible focus ring. */
+.btn.s:has(> i.fa-solid:only-child),
+.btn.s:has(> i.fa-regular:only-child) {
+  border-color: transparent;
+}
+.btn.s:has(> i.fa-solid:only-child) > i,
+.btn.s:has(> i.fa-regular:only-child) > i {
+  font-weight: 900;
+}
+/* Icon-only action buttons (View / Delete / Print) — keep text sizing, align icon */
+.btn .fa-solid,
+.btn .fa-regular {
+  vertical-align: -2px;
+}
+.btn.icon-only {
+  padding: 4px 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.grid {
+  display: grid;
+  gap: 14px;
+}
+.k6 {
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+}
+.k3 {
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+}
+.two {
+  grid-template-columns: 2fr 1fr;
+}
+.card {
+  background: var(--card);
+  border: 1px solid var(--bd);
+  border-radius: 16px;
+  padding: 16px;
+}
+.kpi small {
+  color: var(--mut);
+}
+.kpi b {
+  display: block;
+  font-size: 26px;
+  font-weight: 600;
+  margin-top: 2px;
+}
+.card h3 {
+  margin: 0 0 10px;
+  font-size: 14px;
+  font-weight: 600;
+}
+.tw {
+  overflow-x: auto;
+}
+/* --- 6. Data Tables & Status Badges --- */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 620px;
+}
+th {
+  text-align: left;
+  font-size: 12px;
+  color: var(--mut);
+  font-weight: 500;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--bd);
+  cursor: pointer;
+  white-space: nowrap;
+}
+td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--bd);
+}
+tr:hover td {
+  background: var(--bg);
+}
+tr:last-child td {
+  border: 0;
+}
+.tag {
+  padding: 2px 10px;
+  border-radius: 99px;
+  font-size: 12px;
+  font-weight: 500;
+  background: var(--pri2);
+  color: var(--pt);
+  white-space: nowrap;
+}
+.tag.ok {
+  background: var(--okb);
+  color: var(--ok);
+}
+.tag.wa {
+  background: var(--wab);
+  color: var(--wa);
+}
+.tag.er {
+  background: var(--erb);
+  color: var(--er);
+}
+.bar {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+.bar .in {
+  max-width: 260px;
+}
+.flow {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  align-items: center;
+  color: var(--mut);
+  font-size: 12px;
+}
+.flow i {
+  font-style: normal;
+  background: var(--pri2);
+  color: var(--pri);
+  padding: 2px 10px;
+  border-radius: 99px;
+  font-weight: 500;
+}
+.mx td,
+.mx th {
+  text-align: center;
+}
+.mx td:first-child,
+.mx th:first-child {
+  text-align: left;
+}
+.mx input {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--pri);
+  cursor: pointer;
+}
+.mod {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.mod .r {
+  display: flex;
+  justify-content: space-between;
+  color: var(--mut);
+  font-size: 12px;
+}
+.mod .r b {
+  color: var(--tx);
+  font-weight: 500;
+}
+.empty {
+  text-align: center;
+  color: var(--mut);
+  padding: 30px;
+}
+/* --- 7. Modal Dialogs & Notifications --- */
+.fm {
+  display: grid;
+  gap: 12px;
+  max-width: 560px;
+}
+.fm label {
+  font-size: 12px;
+  color: var(--mut);
+  display: grid;
+  gap: 4px;
+}
+#toast {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  background: var(--tx);
+  color: var(--bg);
+  padding: 10px 16px;
+  border-radius: 10px;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: 0.2s;
+  z-index: 60;
+}
+#toast.on {
+  opacity: 1;
+  transform: none;
+}
+.pop {
+  max-width: 92vw;
+  position: absolute;
+  right: 0;
+  top: 44px;
+  width: 300px;
+  background: var(--card);
+  border: 1px solid var(--bd);
+  border-radius: 14px;
+  padding: 10px;
+  z-index: 30;
+  box-shadow: 0 8px 24px rgba(15, 27, 61, 0.12);
+}
+.pop div {
+  padding: 8px;
+  border-radius: 8px;
+  font-size: 13px;
+}
+.pop div.u {
+  background: var(--pri2);
+}
+.pop.wide {
+  width: 400px;
+  max-height: 72vh;
+  overflow: auto;
+}
+.pop section {
+  padding: 6px 4px;
+}
+.pop .tk {
+  border: 1px solid var(--bd);
+  border-radius: 12px;
+  padding: 10px;
+  margin-top: 8px;
+  display: grid;
+  gap: 4px;
+}
+.pop .tk.u {
+  border-left: 3px solid var(--pri);
+}
+.pop .tk p {
+  margin: 0;
+  color: var(--mut);
+  font-size: 12px;
+}
+.pop .empty {
+  padding: 20px;
+}
+.pop .in {
+  padding: 5px 6px;
+  font-size: 12px;
+}
+.pop .nav {
+  padding: 8px 10px;
+}
+.pf {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 2px 6px;
+}
+.mx input {
+  accent-color: var(--pri);
+}
+.col .pop .nav span {
+  display: inline;
+}
+#mb {
+  display: none;
+}
+/* --- 8. Responsive Breakpoints --- */
+@media (max-width: 1024px) {
+  body.open {
+    overflow: hidden;
+  }
+  body.open::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 19;
+    background: rgba(8, 15, 32, 0.48);
+    -webkit-tap-highlight-color: transparent;
+  }
+  body.open header {
+    z-index: 21;
+  }
+  aside {
+    transform: translateX(-100%);
+    z-index: 30;
+    width: min(var(--sbw), calc(100vw - 56px));
+    padding-top: max(16px, env(safe-area-inset-top, 0px));
+    padding-bottom: max(16px, env(safe-area-inset-bottom, 0px));
+    overscroll-behavior: contain;
+  }
+  .open aside {
+    transform: none;
+    width: min(var(--sbw), calc(100vw - 56px));
+  }
+  .open .nav span,
+  .open .sec,
+  .open .logo div {
+    display: block;
+  }
+  .open .nav span {
+    display: inline;
+  }
+  main,
+  header,
+  .col main,
+  .col header {
+    margin-left: 0;
+  }
+  #mb {
+    display: block;
+  }
+  .two {
+    grid-template-columns: 1fr;
+  }
+  .srch {
+    display: none;
+  }
+  header {
+    padding: 0 12px;
+  }
+  main {
+    padding: 16px;
+    width: 100%;
+    max-width: none;
+    min-width: 0;
+  }
+  #mn { min-width: 0; }
+  .bc {
+    display: none;
+  }
+}
+
+/* Small screens: keep wide business tables scrollable inside their own cards. */
+@media (max-width: 650px) {
+  html, body { width: 100%; min-width: 0; overflow-x: clip; }
+  header {
+    height: auto;
+    min-height: 56px;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 6px 10px;
+    padding-top: max(6px, env(safe-area-inset-top, 0px));
+  }
+  header > div:first-of-type,
+  header .header-page {
+    flex: 1 1 70px;
+    min-width: 0;
+  }
+  header h1 {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 15px;
+  }
+  #ct { display: none; }
+  #mb, header .ic {
+    min-width: 40px;
+    min-height: 40px;
+    padding: 8px;
+    flex: 0 0 auto;
+  }
+  header .pf { padding: 3px; }
+  header .pf > span:not(.av),
+  header .profile-text { display: none !important; }
+  header .srch {
+    display: block;
+    order: 20;
+    flex: 1 0 100%;
+    width: 100%;
+    max-width: none;
+    margin: 0;
+  }
+  main { padding: 12px; }
+  .ph { gap: 8px; align-items: center; }
+  .ph > div { min-width: 0; flex: 1 1 180px; }
+  .ph h2 { font-size: 19px; line-height: 1.25; overflow-wrap: anywhere; }
+  .ph p { font-size: 12px; }
+  .ph > .btn { max-width: 100%; }
+  .grid { min-width: 0; gap: 10px; }
+  .grid.two, .grid.k3 { grid-template-columns: minmax(0, 1fr); }
+  .grid.k6 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .card { min-width: 0; padding: 12px; border-radius: 13px; }
+  .kpi { min-width: 0; overflow-wrap: anywhere; }
+  .kpi b { font-size: clamp(19px, 6vw, 25px); }
+  .bar { align-items: stretch; }
+  .bar .in { flex: 1 1 100%; width: 100%; max-width: none; }
+  .tw {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+  .tw table { min-width: 620px; }
+  th, td { padding: 9px 10px; }
+  .tw td { overflow-wrap: anywhere; }
+  .tw td:last-child > span { flex-wrap: wrap; min-width: 96px; }
+  .btn { min-height: 38px; }
+  .btn.s { min-height: 34px; padding: 6px 9px; }
+  .fm { width: 100%; max-width: none; min-width: 0; }
+  .fm label, .fm input, .fm select, .fm textarea { min-width: 0; }
+  input.in, select.in, textarea.in { font-size: 16px; }
+  .pop.wide { width: min(400px, calc(100vw - 20px)); right: -4px; max-height: 70dvh; }
+  #toast { right: 10px; left: 10px; bottom: max(10px, env(safe-area-inset-bottom, 0px)); text-align: center; }
+}
+
+@media (max-width: 380px) {
+  main { padding: 10px; }
+  .grid.k6 { grid-template-columns: minmax(0, 1fr); }
+  .card { padding: 10px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+  }
+}
+
+/* Wider, centered Transport approval form. */
+.mask.transport-approval-dialog-mask {
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  overflow-y: auto;
+}
+.dlg.transport-approval-dialog {
+  width: min(760px, calc(100vw - 40px));
+  max-width: 760px;
+  max-height: calc(100dvh - 40px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+.fm.transport-approval-form {
+  width: 100%;
+  max-width: none;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px 16px;
+}
+.fm.transport-approval-form label:last-child {
+  grid-column: 1 / -1;
+}
+@media (max-width: 650px) {
+  .dlg.transport-approval-dialog {
+    width: 100%;
+    max-width: 760px;
+    max-height: calc(100dvh - 24px - env(safe-area-inset-top, 0px));
+    padding: 16px;
+  }
+  .fm.transport-approval-form {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .fm.transport-approval-form label:last-child {
+    grid-column: auto;
+  }
+}
+
+/* Shared modal layout for ERP modules. The dialog scrolls as one surface unless
+   a specialized component (such as the CRM quotation) owns its body scrolling. */
+html:has(.mask),
+body:has(.mask) { overflow: hidden; }
+.mask {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: grid;
+  place-items: center;
+  box-sizing: border-box;
+  padding: 16px;
+  overflow: auto;
+  overscroll-behavior: contain;
+  background: rgba(10, 18, 40, .52);
+  -webkit-overflow-scrolling: touch;
+}
+.mask > .dlg {
+  display: flex;
+  flex-direction: column;
+  width: min(560px, calc(100vw - 32px));
+  max-width: calc(100vw - 32px) !important;
+  max-height: calc(100vh - 32px);
+  max-height: calc(100dvh - 32px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px)) !important;
+  min-height: 0;
+  margin: auto;
+  padding: 0;
+  overflow: hidden;
+  overscroll-behavior: contain;
+  box-sizing: border-box;
+  border: 1px solid var(--bd);
+  border-radius: 16px;
+  background: var(--card);
+  color: var(--tx);
+  box-shadow: 0 18px 55px rgba(15, 27, 61, .24);
+  -webkit-overflow-scrolling: touch;
+}
+.mask > .dlg:has(.fm),
+.mask > .dlg:has(.grid) { width: min(820px, calc(100vw - 32px)); }
+.mask > .dlg:has(.tw),
+.mask > .dlg:has(table) { width: min(1040px, calc(100vw - 32px)); }
+.mask > .dlg.transport-approval-dialog { width: min(760px, calc(100vw - 32px)); }
+.mask > .dlg.vxp-fields-dlg { width: min(440px, calc(100vw - 32px)); }
+.mask > .dlg.vxp-fields-dlg.vxp-fields-manage,
+.mask > .dlg.vxp-fields-dlg.vxp-fields-product { width: min(760px, calc(100vw - 32px)); }
+.mask > .dlg.detail-dialog {
+  position: relative;
+  width: min(800px, calc(100vw - 32px));
+  padding: 20px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+.mask > .dlg.detail-dialog > button[data-x] {
+  position: sticky !important;
+  top: 0 !important;
+  align-self: flex-end;
+  margin: -8px -6px -32px 0;
+  z-index: 4;
+}
+.mask > .dlg > button[data-x][style*="position:absolute"] {
+  position: sticky !important;
+  top: 0 !important;
+  align-self: flex-end;
+  margin: -8px -6px -32px 0;
+  z-index: 4;
+}
+.mask > .dlg:not(:has(> .dlg-body)) {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+.mask > .dlg > * { min-width: 0; flex-shrink: 0; }
+.mask > .dlg > .dlg-head {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  box-sizing: border-box;
+  padding: 18px 22px 12px;
+  border-bottom: 1px solid var(--bd);
+  background: var(--card);
+}
+.mask > .dlg:not(:has(> .dlg-body)) > h3:first-child,
+.mask > .dlg:not(:has(> .dlg-body)) > div:has(h3) {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  background: var(--card);
+}
+.mask > .dlg .dlg-head h3 { margin: 0; font-size: 18px; line-height: 1.35; }
+.mask > .dlg .dlg-head p { margin: 5px 0 0; color: var(--mut); font-size: 12px; }
+.mask > .dlg .dlg-close { flex: 0 0 34px; width: 34px; height: 34px; min-width: 34px; padding: 0; }
+.mask > .dlg > .dlg-body {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 0;
+  padding: 18px 22px;
+  overflow: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+.mask > .dlg .dlg-body > .fm {
+  width: 100%; max-width: none;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  padding: 0; box-sizing: border-box;
+}
+.mask > .dlg .fm label, .mask > .dlg .fm .in { min-width: 0; }
+.mask > .dlg .fm .in { width: 100%; box-sizing: border-box; }
+.mask > .dlg .grid { min-width: 0; }
+.mask > .dlg .dlg-body > h4 {
+  margin: 0 0 12px; padding: 9px 12px; border-radius: 9px;
+  background: var(--pri2); color: var(--pri);
+}
+.mask > .dlg .a {
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
+  flex-shrink: 0;
+  margin-top: auto;
+  padding: 12px 22px max(12px, env(safe-area-inset-bottom, 0px));
+  border-top: 1px solid var(--bd);
+  background: var(--card);
+  justify-content: flex-end;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.mask > .dlg .a .btn { flex: 0 0 auto; }
+.mask > .dlg > .dlg-body > div[style*="justify-content:flex-end"],
+.mask > .dlg > .dlg-body > div[style*="justify-content: flex-end"] {
+  position: sticky; bottom: 0; z-index: 2; flex-shrink: 0;
+  padding: 12px 22px max(12px, env(safe-area-inset-bottom, 0px));
+  border-top: 1px solid var(--bd); background: var(--card);
+}
+.mask > .dlg:not(:has(> .dlg-body)) > div[style*="justify-content:flex-end"],
+.mask > .dlg:not(:has(> .dlg-body)) > div[style*="justify-content: flex-end"],
+.mask > .dlg:not(:has(> .dlg-body)) > div[style*="justify-content:space-between"],
+.mask > .dlg:not(:has(> .dlg-body)) > div[style*="justify-content: space-between"] {
+  position: sticky; bottom: 0; z-index: 2; flex-shrink: 0;
+  padding: 12px 22px max(12px, env(safe-area-inset-bottom, 0px));
+  border-top: 1px solid var(--bd); background: var(--card);
+}
+.mask > .dlg > .tw { min-width: 0; max-width: 100%; }
+
+@media (max-width: 650px) {
+  .mask { padding: 8px; }
+  .mask > .dlg {
+    width: calc(100vw - 16px);
+    max-width: calc(100vw - 16px) !important;
+    max-height: calc(100vh - 16px);
+    max-height: calc(100dvh - 16px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px)) !important;
+    border-radius: 16px;
+  }
+  .mask > .dlg:has(.fm), .mask > .dlg:has(.grid),
+  .mask > .dlg:has(.tw), .mask > .dlg:has(table) { width: calc(100vw - 16px); }
+  .mask > .dlg.transport-approval-dialog,
+  .mask > .dlg.vxp-fields-dlg { width: calc(100vw - 16px); }
+  .mask > .dlg.vxp-fields-dlg.vxp-fields-manage,
+  .mask > .dlg.vxp-fields-dlg.vxp-fields-product { width: calc(100vw - 16px); }
+  .mask > .dlg .dlg-head { padding: 14px 16px 10px; }
+  .mask > .dlg .dlg-body { padding: 14px 16px; }
+  .mask > .dlg .dlg-body > .fm { grid-template-columns: minmax(0, 1fr); }
+  .mask > .dlg.detail-dialog { padding: 16px; }
+  .mask > .dlg .grid { padding-left: 16px; padding-right: 16px; }
+  .mask > .dlg .a { padding: 10px 16px max(12px, env(safe-area-inset-bottom, 0px)); }
+  .mask > .dlg > .dlg-body > div[style*="justify-content:flex-end"],
+  .mask > .dlg > .dlg-body > div[style*="justify-content: flex-end"],
+  .mask > .dlg:not(:has(> .dlg-body)) > div[style*="justify-content:flex-end"],
+  .mask > .dlg:not(:has(> .dlg-body)) > div[style*="justify-content: flex-end"],
+  .mask > .dlg:not(:has(> .dlg-body)) > div[style*="justify-content:space-between"],
+  .mask > .dlg:not(:has(> .dlg-body)) > div[style*="justify-content: space-between"] { padding: 10px 16px max(12px, env(safe-area-inset-bottom, 0px)); }
+}
+
+@media (min-width: 651px) and (max-width: 900px) {
+  .mask > .dlg .dlg-body > .fm { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* --- 9. Standardized row action icons + custom columns --- */
+.vxp-act {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background: var(--card);
+  color: var(--tx);
+  cursor: pointer;
+  padding: 0;
+}
+.vxp-act svg {
+  stroke-width: 2.2;
+}
+.vxp-act:hover {
+  background: var(--bg);
+}
+.vxp-act:focus-visible {
+  outline: 2px solid var(--pri);
+  outline-offset: 2px;
+}
+.vxp-act-danger {
+  color: #dc2626;
+  border-color: transparent;
+}
+.vxp-act-danger:hover {
+  background: #fef2f2;
+}
+.vxp-act-danger:focus-visible {
+  outline-color: #dc2626;
+}
+.vxp-colbtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  margin-left: 6px;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  background: var(--card);
+  color: var(--tx);
+  cursor: pointer;
+  padding: 0;
+  vertical-align: middle;
+}
+.vxp-colbtn svg {
+  stroke-width: 2.2;
+}
+.vxp-colbtn:hover {
+  background: var(--pri2);
+  border-color: transparent;
+  color: var(--pri);
+}
+.vxp-colbtn:focus-visible {
+  outline: 2px solid var(--pri);
+  outline-offset: 2px;
+}
+.vxp-fields-dlg {
+  max-width: 440px;
+}
+.vxcf-block {
+  border-top: 1px dashed var(--bd);
+  margin-top: 10px;
+  padding-top: 10px;
+}
+.vxcf-check {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+/* ==========================================================================
+   Print / PDF (A4) — shared by Export PDF and Print across all modules
+   ========================================================================== */
+@media print {
+  @page {
+    size: A4;
+    margin: 14mm 12mm;
+  }
+  aside,
+  header,
+  #toast,
+  #tp,
+  #pp,
+  .mask,
+  .pop,
+  .dash-banner,
+  .bar,
+  .btn,
+  button,
+  input,
+  select,
+  textarea {
+    display: none !important;
+  }
+  body {
+    background: #fff !important;
+    color: #111 !important;
+    font: 400 10.5pt/1.45 "Poppins", system-ui, sans-serif;
+  }
+  main#mn {
+    display: block !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  .card {
+    break-inside: avoid;
+    page-break-inside: avoid;
+    border: 1px solid #d8dde8 !important;
+    box-shadow: none !important;
+    background: #fff !important;
+    color: #111 !important;
+  }
+  .tw {
+    overflow: visible !important;
+    max-height: none !important;
+  }
+  table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    font-size: 9.5pt;
+  }
+  thead {
+    display: table-header-group; /* repeat column headers on every page */
+  }
+  tr,
+  td,
+  th {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+  th,
+  td {
+    border: 0.5pt solid #c8cfdd !important;
+    padding: 4pt 6pt !important;
+    text-align: left;
+    color: #111 !important;
+    background: #fff !important;
+  }
+  th {
+    background: #eef2fa !important;
+    font-weight: 600;
+  }
+  h1, h2, h3 {
+    color: #111 !important;
+  }
+  .ph {
+    border-bottom: 2pt solid #1746c8;
+    margin-bottom: 10pt;
+  }
+  a[href]::after {
+    content: "";
+  }
+}

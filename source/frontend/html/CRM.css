@@ -1,0 +1,1078 @@
+/**
+ * VyaparX ERP - Customer Relationship Management (CRM) Stylesheet
+ * Imports core ERP theme and customer/lead view overrides.
+ */
+
+/* Module styles for CRM */
+@import url("../css/erp.css?v=20261101-modal-layout");
+
+/* CRM-only enhancements: appended styles do not modify shared erp.css */
+.crm-quote-mask,
+.crm-template-mask,
+.crm-preview-mask {
+  z-index: 80;
+  background: rgba(15, 23, 42, 0.42);
+  backdrop-filter: blur(3px);
+}
+
+/* Keep the quotation overlay independent of the shared .mask defaults. */
+.crm-quote-mask {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  overflow: hidden;
+  box-sizing: border-box;
+  background: rgba(15, 23, 42, 0.55);
+}
+
+.crm-quote-dialog,
+.crm-template-dialog,
+.crm-preview-dialog {
+  box-sizing: border-box;
+  min-width: 0;
+  background: var(--card, #fff);
+  color: var(--tx, #152238);
+  border: 1px solid var(--bd, #e5e7eb);
+  border-radius: 16px;
+  width: min(1100px, 96vw);
+  max-height: 94vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 24px 80px rgba(15, 23, 42, 0.2);
+}
+
+.crm-q-head,
+.crm-template-head,
+.crm-preview-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 20px 24px 14px;
+  border-bottom: 1px solid var(--bd, #e5e7eb);
+  flex: 0 0 auto;
+}
+
+.crm-q-head h3,
+.crm-template-head h3,
+.crm-preview-top h3 {
+  font-size: 19px;
+  margin: 0 0 3px;
+  font-weight: 600;
+}
+
+.crm-q-head p,
+.crm-template-head p,
+.crm-preview-top p {
+  margin: 0;
+  color: var(--mut, #64748b);
+  font-size: 12px;
+}
+
+.crm-q-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  min-width: 0;
+  padding: 18px 24px;
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+
+.crm-q-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.crm-q-body label,
+.crm-template-form label,
+.crm-report-filter-grid label {
+  display: grid;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--mut, #64748b);
+}
+
+.crm-q-body input,
+.crm-q-body select,
+.crm-q-body textarea,
+.crm-template-form input,
+.crm-template-form textarea {
+  min-width: 0;
+}
+
+.crm-q-full {
+  display: grid;
+  gap: 6px;
+  margin-top: 16px;
+  font-size: 12px;
+  color: var(--mut, #64748b);
+}
+
+.crm-q-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 18px 0 10px;
+  padding-bottom: 9px;
+  border-bottom: 1px solid var(--bd, #e5e7eb);
+}
+
+.crm-q-section small {
+  display: block;
+  color: var(--mut, #64748b);
+  font-size: 11px;
+  margin-top: 3px;
+}
+
+.crm-q-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.crm-inline-check {
+  display: flex !important;
+  align-items: center;
+  gap: 6px !important;
+  white-space: nowrap;
+}
+
+.crm-inline-check input {
+  width: auto;
+}
+
+.crm-q-terms {
+  margin-top: 9px;
+}
+
+.crm-q-table {
+  max-width: 100%;
+  border: 1px solid var(--bd, #e5e7eb);
+  border-radius: 8px;
+  overflow: auto;
+  overscroll-behavior-x: contain;
+}
+
+.crm-q-table table {
+  min-width: 900px;
+}
+
+.crm-q-table th {
+  background: var(--bg, #f8fafc);
+}
+
+.crm-q-table .in {
+  padding: 7px 8px;
+  font-size: 12px;
+  min-width: 64px;
+}
+
+.crm-q-table td:first-child .in {
+  min-width: 160px;
+}
+
+.crm-q-table td {
+  vertical-align: top;
+}
+
+.cq-value {
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.cq-uom,
+.cq-gst {
+  white-space: nowrap;
+}
+
+.crm-q-totals {
+  display: grid;
+  gap: 8px;
+  max-width: 340px;
+  margin: 16px 0 0 auto;
+  width: min(100%, 340px);
+}
+
+.crm-q-totals > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  font-size: 13px;
+}
+
+.crm-q-totals .grand {
+  padding-top: 10px;
+  border-top: 1px solid var(--bd, #e5e7eb);
+  font-size: 16px;
+}
+
+.crm-q-footer,
+.crm-template-footer,
+.crm-preview-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  align-items: center;
+  padding: 14px 24px;
+  border-top: 1px solid var(--bd, #e5e7eb);
+  background: var(--card, #fff);
+  flex: 0 0 auto;
+}
+
+.crm-quote-dialog {
+  box-sizing: border-box;
+  width: min(1100px, 96vw);
+  max-width: 96vw;
+  height: auto;
+  max-height: 90vh;
+  max-height: 90dvh;
+  min-height: 0;
+  padding: 24px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  border-radius: 16px;
+  /* Force white background regardless of ERP theme CSS variables */
+  background: #ffffff !important;
+  color: #152238 !important;
+  box-shadow: 0 24px 80px rgba(15, 23, 42, 0.24);
+}
+
+.crm-quote-dialog > * {
+  min-width: 0;
+}
+
+.crm-quote-dialog .crm-q-head {
+  padding: 0 0 16px;
+  background: #ffffff;
+  color: #152238;
+}
+
+.crm-quote-dialog .crm-q-body {
+  flex: 0 1 auto;
+  min-height: 0;
+  padding: 18px 0;
+  overflow: visible;
+  background: #ffffff;
+  color: #152238;
+}
+
+.crm-quote-dialog .crm-q-footer {
+  margin: 0 -24px -24px;
+  padding: 14px 24px 20px;
+  background: #ffffff;
+  color: #152238;
+}
+
+.crm-quote-dialog .crm-q-body > #cq-template,
+.crm-quote-dialog .crm-q-body > .crm-q-terms {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.crm-quote-dialog .crm-q-body .crm-q-grid > label,
+.crm-quote-dialog .crm-q-body > label {
+  display: grid;
+  min-width: 0;
+  gap: 6px;
+}
+
+.crm-quote-dialog .crm-q-body .in {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.crm-quote-dialog .crm-q-body .crm-q-section,
+.crm-quote-dialog .crm-q-body .crm-q-totals,
+.crm-quote-dialog .crm-q-body .crm-q-table {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.crm-quote-mask .crm-q-head,
+.crm-quote-mask .crm-q-body,
+.crm-quote-mask .crm-q-footer {
+  background: #ffffff;
+  color: #152238;
+}
+
+/* Force all inputs / selects / textareas inside the quotation dialog to be white,
+   overriding the ERP theme's var(--bg) which may be grey or dark. */
+.crm-quote-mask .crm-quote-dialog input,
+.crm-quote-mask .crm-quote-dialog select,
+.crm-quote-mask .crm-quote-dialog textarea,
+.crm-quote-mask .crm-quote-dialog .in {
+  color: #152238;
+  background: #ffffff;
+  border-color: #d8dee8;
+}
+
+.crm-quote-dialog .crm-q-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+/* Quotation Templates */
+.crm-template-mask {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  box-sizing: border-box;
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+
+.crm-template-dialog {
+  /* Override the shared group rule — template dialog is a flex column modal. */
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  width: min(1050px, 95vw);
+  max-width: 95vw;
+  height: min(800px, 90vh);
+  max-height: 90dvh;
+  min-height: 0;
+  margin: auto;
+  /* padding comes from child sections, not the dialog itself */
+  padding: 0;
+  overflow: hidden;
+  border-radius: 16px;
+  background: var(--card, #fff);
+  color: var(--tx, #152238);
+  border: 1px solid var(--bd, #e5e7eb);
+  box-shadow: 0 24px 80px rgba(15, 23, 42, 0.2);
+  flex-shrink: 0;
+}
+
+.crm-template-layout {
+  display: grid;
+  /* Keep the list usable without letting it squeeze the editable template. */
+  grid-template-columns: minmax(220px, 280px) minmax(0, 1fr);
+  flex: 1 1 auto;
+  min-height: 0;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.crm-template-list {
+  padding: 16px;
+  border-right: 1px solid var(--bd, #e5e7eb);
+  overflow: auto;
+}
+
+.crm-template-list > .btn {
+  width: 100%;
+  margin-bottom: 12px;
+}
+
+.crm-template-item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  border: 1px solid transparent;
+  background: transparent;
+  color: inherit;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-bottom: 4px;
+}
+
+.crm-template-item.on,
+.crm-template-item:hover {
+  background: var(--pri2, #edf3ff);
+  border-color: var(--bd, #e5e7eb);
+}
+
+.crm-template-form {
+  padding: 22px 26px;
+  overflow: auto;
+  display: grid;
+  align-content: start;
+  gap: 16px;
+  min-width: 0;
+}
+
+/* Let template inputs shrink within the grid instead of widening the dialog. */
+.crm-template-form label,
+.crm-template-form input,
+.crm-template-form textarea {
+  min-width: 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.crm-template-form textarea {
+  resize: vertical;
+  line-height: 1.7;
+}
+
+.crm-template-form small {
+  font-size: 11px;
+  color: var(--mut, #64748b);
+}
+
+/* Quotation Preview */
+.crm-preview-dialog {
+  width: min(1400px, calc(100vw - 32px));
+  height: min(900px, calc(100dvh - 32px));
+  max-height: calc(100dvh - 32px);
+  min-height: min(560px, calc(100dvh - 32px));
+}
+
+.crm-preview-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 24px;
+  border-bottom: 1px solid var(--bd, #e5e7eb);
+}
+
+.crm-preview-controls label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+}
+
+.crm-preview-controls select {
+  width: min(320px, 50vw);
+}
+
+.crm-document-scroll {
+  overflow: auto;
+  background: #292929;
+  padding: clamp(10px, 2vw, 24px);
+  flex: 1;
+  min-height: 0;
+  min-width: 0;
+  overscroll-behavior: contain;
+}
+
+.crm-document {
+  width: 210mm;
+  min-height: 280mm;
+  margin: 0 auto;
+  background: #fff;
+  color: #111;
+  padding: 18mm 15mm;
+  font: 11px/1.55 Arial, sans-serif;
+  box-shadow: 0 2px 10px #1115;
+}
+
+.crm-doc-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.crm-doc-head h1 {
+  font-size: 21px;
+  margin: 0 0 6px;
+}
+
+.crm-doc-head p {
+  margin: 2px 0;
+  color: #444;
+}
+
+.crm-doc-title {
+  text-align: right;
+  min-width: 170px;
+}
+
+.crm-doc-title h2 {
+  font-size: 26px;
+  letter-spacing: 3px;
+  margin: 0 0 8px;
+}
+
+.crm-doc-title b,
+.crm-doc-title small {
+  display: block;
+  margin: 3px 0;
+}
+
+.crm-document hr {
+  border: 0;
+  border-top: 2px solid #222;
+  margin: 34px 0 24px;
+}
+
+.crm-doc-client {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 20px;
+  margin-bottom: 28px;
+}
+
+.crm-doc-client small {
+  letter-spacing: 1px;
+  font-weight: bold;
+  color: #555;
+}
+
+.crm-doc-client h3 {
+  font-size: 16px;
+  margin: 8px 0;
+}
+
+.crm-doc-client p {
+  margin: 2px 0;
+}
+
+.crm-doc-client table,
+.crm-doc-items {
+  border-collapse: collapse;
+  width: 100%;
+  min-width: 0;
+}
+
+.crm-doc-client td,
+.crm-doc-client th {
+  border: 1px solid #bbb;
+  padding: 7px 9px;
+}
+
+.crm-doc-client td {
+  color: #555;
+  font-size: 10px;
+}
+
+.crm-doc-client th {
+  text-align: right;
+}
+
+.crm-doc-items th {
+  background: #f3f4f6;
+  text-align: left;
+}
+
+.crm-doc-items th,
+.crm-doc-items td {
+  border-bottom: 1px solid #bbb;
+  padding: 7px 5px;
+  vertical-align: top;
+  font-size: 9px;
+}
+
+.crm-doc-items .num {
+  text-align: right;
+  white-space: nowrap;
+}
+
+/* GST summary — navy heading, light-blue table highlights */
+.crm-doc-gst {
+  margin-top: 18px;
+}
+
+.crm-doc-gst h3 {
+  color: #0c3aa8;
+  font-size: 12px;
+  margin: 0 0 6px;
+}
+
+.crm-doc-gst table {
+  width: 380px;
+  margin-left: auto;
+  border-collapse: collapse;
+}
+
+.crm-doc-gst th {
+  background: #e8f0fe;
+  color: #0c3aa8;
+  text-align: left;
+  padding: 6px 9px;
+  border: 1px solid #b9c9e8;
+  font-size: 10px;
+}
+
+.crm-doc-gst td {
+  border: 1px solid #b9c9e8;
+  padding: 5px 9px;
+  font-size: 10px;
+}
+
+.crm-doc-gst th.num,
+.crm-doc-gst td.num {
+  text-align: right;
+}
+
+/* Final amount summary — right aligned block */
+.crm-doc-amounts {
+  width: 340px;
+  margin: 16px 0 14px auto;
+  border: 1px solid #b9c9e8;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.crm-doc-amounts > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 6px 10px;
+  border-bottom: 1px solid #dde6f5;
+  font-size: 10.5px;
+}
+
+.crm-doc-amounts > div:nth-child(odd):not(.grand):not(.words) {
+  background: #f2f7ff;
+}
+
+.crm-doc-amounts .grand {
+  background: #e8f0fe;
+  color: #0c3aa8;
+  font-size: 13px;
+  font-weight: bold;
+  border-top: 2px solid #0c3aa8;
+  border-bottom: 0;
+}
+
+.crm-doc-amounts .words {
+  border-bottom: 0;
+  color: #333;
+}
+
+.crm-doc-amounts .words b {
+  font-weight: 500;
+  text-align: right;
+  max-width: 220px;
+}
+
+/* Footer: Prepared By + company + authorised signatory */
+.crm-doc-prepared {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  margin-top: 26px;
+  font-size: 10.5px;
+  color: #333;
+}
+
+.crm-doc-totals {
+  width: 300px;
+  margin: 18px 0 20px auto;
+}
+
+.crm-doc-totals > div {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px;
+  border-bottom: 1px solid #ddd;
+}
+
+.crm-doc-totals .grand {
+  font-size: 14px;
+  font-weight: bold;
+  border-top: 2px solid #222;
+  border-bottom: 2px solid #222;
+}
+
+.crm-document section {
+  margin-top: 18px;
+}
+
+.crm-document section h3 {
+  font-size: 12px;
+  margin-bottom: 5px;
+}
+
+.crm-document pre {
+  white-space: pre-wrap;
+  font: 10px/1.6 Arial, sans-serif;
+}
+
+.crm-doc-sign {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 50px;
+  text-align: center;
+  min-width: 220px;
+}
+
+.crm-doc-sign > div {
+  min-width: 220px;
+  border-top: 1px solid #777;
+  padding-top: 8px;
+}
+
+/* CRM Reports */
+.crm-report-kpis {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin: 0 0 16px;
+}
+
+.crm-report-kpi {
+  background: var(--card, #fff);
+  border: 1px solid var(--bd, #e5e7eb);
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.crm-report-kpi small {
+  display: block;
+  color: var(--mut, #64748b);
+  font-size: 12px;
+}
+
+.crm-report-kpi b {
+  display: block;
+  font-size: 25px;
+  margin-top: 5px;
+  font-weight: 600;
+}
+
+.crm-report-filters {
+  margin-bottom: 14px;
+}
+
+.crm-report-filter-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1fr 1fr;
+  gap: 12px;
+}
+
+.crm-report-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  margin-top: 14px;
+}
+
+.crm-report-panel {
+  margin: 0 0 14px;
+}
+
+.crm-report-panel h3 {
+  margin-bottom: 12px;
+}
+
+/* Responsive styles */
+@media (max-width: 800px) {
+  .crm-quote-dialog .crm-q-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .crm-q-head {
+    padding-inline: 18px;
+  }
+
+  .crm-q-body {
+    padding: 16px 18px;
+  }
+
+  .crm-q-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .crm-template-layout {
+    grid-template-columns: minmax(150px, 200px) minmax(0, 1fr);
+  }
+
+  .crm-template-dialog {
+    width: min(1050px, 96vw);
+    height: min(800px, 92vh);
+  }
+
+  .crm-template-form {
+    padding: 16px;
+  }
+
+  .crm-preview-controls {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .crm-report-kpis {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .crm-report-filter-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .crm-document {
+    width: 800px;
+    padding: 32px;
+  }
+}
+
+@media (max-width: 800px) {
+  .crm-quote-dialog {
+    padding: 20px;
+  }
+
+  .crm-quote-dialog .crm-q-footer {
+    margin: 0 -20px -20px;
+    padding: 14px 20px 18px;
+  }
+}
+
+@media (max-width: 520px) {
+  .crm-quote-mask {
+    padding: 8px;
+  }
+
+  .crm-quote-dialog {
+    width: 98vw;
+    max-width: 98vw;
+    height: auto;
+    min-height: 0;
+    max-height: 92dvh;
+    padding: 16px;
+  }
+
+  .crm-quote-dialog .crm-q-head {
+    gap: 10px;
+    padding-bottom: 12px;
+  }
+
+  .crm-quote-dialog .crm-q-head p {
+    line-height: 1.5;
+  }
+
+  .crm-quote-dialog .crm-q-footer {
+    margin: 0 -16px -16px;
+    padding: 12px 16px 16px;
+  }
+
+  .crm-quote-dialog .crm-q-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .crm-q-head,
+  .crm-template-head,
+  .crm-preview-top {
+    padding: 14px;
+  }
+
+  .crm-q-body {
+    padding: 14px;
+  }
+
+  .crm-q-section {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .crm-q-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .crm-q-footer {
+    justify-content: stretch;
+  }
+
+  .crm-q-footer .btn {
+    flex: 1 1 120px;
+  }
+
+  .crm-q-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .crm-q-footer,
+  .crm-template-footer,
+  .crm-preview-footer {
+    padding: 12px;
+    flex-wrap: wrap;
+  }
+
+  .crm-template-mask {
+    padding: 0;
+    align-items: stretch;
+    justify-content: stretch;
+  }
+
+  .crm-template-dialog {
+    width: 100vw;
+    max-width: 100vw;
+    height: 100dvh;
+    max-height: 100dvh;
+    border-radius: 0;
+    margin: 0;
+    flex-shrink: 0;
+  }
+
+  .crm-template-layout {
+    grid-template-columns: 1fr;
+    overflow: auto;
+  }
+
+  .crm-template-list {
+    border-right: 0;
+    border-bottom: 1px solid var(--bd, #e5e7eb);
+    max-height: 160px;
+  }
+
+  .crm-report-kpis {
+    gap: 8px;
+  }
+
+  .crm-report-kpi {
+    padding: 12px;
+  }
+
+  .crm-report-kpi b {
+    font-size: 20px;
+  }
+
+  .crm-report-filter-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .crm-preview-dialog {
+    width: 98vw;
+    height: calc(100dvh - 16px);
+    max-height: calc(100dvh - 16px);
+    min-height: 0;
+  }
+}
+
+/* Print quotation preview and the currently-filtered CRM report */
+@media print {
+  body.crm-report-printing > * {
+    visibility: hidden !important;
+  }
+
+  body.crm-report-printing #mn,
+  body.crm-report-printing #mn * {
+    visibility: visible !important;
+  }
+
+  body.crm-report-printing #mn {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: visible !important;
+    background: #fff !important;
+    color: #111 !important;
+  }
+
+  body.crm-report-printing .crm-report-filters,
+  body.crm-report-printing .crm-report-print-heading,
+  body.crm-report-printing #crmReportWorkspace {
+    display: block !important;
+  }
+
+  body.crm-report-printing .crm-report-filters,
+  body.crm-report-printing .ph {
+    display: none !important;
+  }
+
+  body.crm-report-printing .crm-report-print-heading {
+    margin-bottom: 16px;
+  }
+
+  body.crm-report-printing .crm-report-print-heading h2,
+  body.crm-report-printing .crm-report-print-heading p {
+    color: #111 !important;
+  }
+
+  body.crm-report-printing .crm-report-panel,
+  body.crm-report-printing .card {
+    break-inside: auto !important;
+    box-shadow: none !important;
+    border-color: #ddd !important;
+  }
+
+  body.crm-report-printing tr,
+  body.crm-report-printing .crm-report-kpi {
+    break-inside: avoid !important;
+  }
+
+  body.crm-report-printing .tw {
+    overflow: visible !important;
+  }
+
+  body.crm-report-printing #crmReportWorkspace .btn {
+    display: none !important;
+  }
+
+  body.crm-report-printing table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+  }
+
+  body.crm-report-printing th,
+  body.crm-report-printing td {
+    color: #111 !important;
+    border: 1px solid #bbb !important;
+    white-space: normal !important;
+  }
+
+  body.crm-report-printing .btn {
+    display: none !important;
+  }
+
+  body > * {
+    visibility: hidden !important;
+  }
+
+  .crm-preview-mask,
+  .crm-preview-mask * {
+    visibility: visible !important;
+  }
+
+  .crm-preview-mask {
+    position: static !important;
+    display: block !important;
+    background: #fff !important;
+    padding: 0 !important;
+  }
+
+  .crm-preview-dialog {
+    width: 100% !important;
+    height: auto !important;
+    max-height: none !important;
+    border: 0 !important;
+    box-shadow: none !important;
+  }
+
+  .crm-preview-top,
+  .crm-preview-controls,
+  .crm-preview-footer {
+    display: none !important;
+  }
+
+  .crm-document-scroll {
+    overflow: visible !important;
+    padding: 0 !important;
+    background: #fff !important;
+  }
+
+  .crm-document {
+    width: 100% !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 8mm !important;
+    box-shadow: none !important;
+  }
+
+  .crm-document table {
+    page-break-inside: auto;
+  }
+
+  .crm-document tr {
+    page-break-inside: avoid;
+  }
+}

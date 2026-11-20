@@ -1,0 +1,110 @@
+/**
+ * VyaparX ERP - Production & Manufacturing Stylesheet
+ * Imports core ERP theme and production floor overrides.
+ */
+
+/* Module styles for producation */
+@import url("./erp.css?v=20261101-modal-layout");
+
+/* Keep Production order dialogs sized to their content and the viewport. */
+.mask.vm > .dlg.production-create-order-picker {
+  box-sizing: border-box;
+  width: min(640px, calc(100vw - 32px)) !important;
+  max-width: 640px !important;
+  height: auto;
+  max-height: min(calc(100dvh - 32px), 520px) !important;
+  padding: 24px;
+  overflow: auto;
+}
+
+.mask.vm > .dlg.production-create-order-picker > label {
+  display: grid;
+  gap: 7px;
+  margin-top: 16px;
+}
+
+.production-create-order-actions {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.mask.vm > .dlg.production-create-order-form {
+  box-sizing: border-box;
+  width: min(1040px, calc(100vw - 32px)) !important;
+  max-width: 1040px !important;
+  height: auto;
+  max-height: min(calc(100dvh - 32px), 900px) !important;
+  padding: 20px 24px;
+  overflow: auto;
+}
+
+.production-create-order-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+
+.production-create-order-head p {
+  margin: 6px 0 0;
+  color: var(--mut);
+  font-size: 12px;
+}
+
+.production-create-order-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.production-create-order-fields label {
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+  color: var(--mut);
+  font-size: 12px;
+}
+
+.production-manual-material-check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+  color: var(--mut);
+  font-size: 12px;
+}
+
+.production-create-order-form > .grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.production-create-order-form > .tw {
+  overflow: auto;
+}
+
+@media (max-width: 650px) {
+  .mask.vm > .dlg.production-create-order-picker,
+  .mask.vm > .dlg.production-create-order-form {
+    width: calc(100vw - 16px) !important;
+    max-width: none !important;
+    max-height: calc(100dvh - 16px) !important;
+    padding: 16px;
+  }
+
+  .production-create-order-form > .grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .production-create-order-fields {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .production-create-order-actions > .btn {
+    flex: 1 1 120px;
+  }
+}

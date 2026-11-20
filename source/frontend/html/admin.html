@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#ffffff">
+  <title>VyaparX ERP – Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <link rel="stylesheet" href="../css/erp.css?v=20261101-modal-layout">
+  <link rel="stylesheet" href="../css/admin.css">
+  <link rel="stylesheet" href="../css/dashboard.css?v=20261101-modal-layout">
+  <link rel="icon" type="image/png" href="../assets/logo.png" />
+</head>
+<body>
+  <aside id="sb" aria-label="Main navigation"></aside>
+  <header>
+    <button class="ic" id="mb" aria-label="Menu">☰</button>
+    <button class="ic" id="ct" aria-label="Collapse sidebar">⇆</button>
+    <div class="header-page"><h1 id="pt">Dashboard</h1><div class="bc" id="bc">Admin / Dashboard</div></div>
+    <input class="in srch" id="gs" placeholder="Search anything..." aria-label="Search">
+    <span class="header-pop-wrap">
+      <button class="ic" id="tb" aria-label="Tasks" aria-expanded="false">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8 12l3 3 5-6"/></svg><span class="dot" id="tc" hidden></span>
+      </button>
+      <div class="pop wide" id="tp" hidden></div>
+    </span>
+    <button class="ic" id="th" aria-label="Toggle theme">◐</button>
+    <span class="header-pop-wrap">
+      <button class="ic pf" id="pb" aria-label="Profile menu" aria-expanded="false"><span class="av">AD</span><span class="profile-text"><b>Admin</b><span class="bc">Administrator</span></span></button>
+      <div class="pop" id="pp" hidden>
+        <button class="nav" data-act="pm:profile"><span>Profile</span></button>
+        <button class="nav" data-act="pm:set"><span>Profile Settings</span></button>
+        <button class="nav" data-act="pm:pw"><span>Change Password</span></button>
+        <button class="nav" data-act="logout"><span>Logout</span></button>
+      </div>
+    </span>
+  </header>
+  <main id="mn" aria-live="polite"></main>
+  <div id="toast" role="status" aria-live="polite"></div>
+  <script src="../javascript/auth.js"></script>
+    <script src="../javascript/erp-shared.js"></script>
+  <script src="../javascript/guard.js"></script>
+    <script src="../javascript/custom-fields.js"></script>
+  <script src="../javascript/catalog-shared.js"></script>
+  <script src="../javascript/admin.js"></script>
+</body>
+</html>

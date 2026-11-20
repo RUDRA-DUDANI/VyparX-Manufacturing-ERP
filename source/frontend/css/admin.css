@@ -1,0 +1,7 @@
+/**
+ * VyaparX ERP - Administration & Access Control Stylesheet
+ * Imports core ERP theme and custom styles for admin controls.
+ */
+
+/* Module styles for admin */
+@import url("./erp.css?v=20261101-modal-layout");

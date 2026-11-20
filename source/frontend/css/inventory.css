@@ -1,0 +1,7 @@
+/**
+ * VyaparX ERP - Inventory & Stock Management Stylesheet
+ * Imports core ERP theme and inventory table overrides.
+ */
+
+/* Module styles for inventory */
+@import url("./erp.css?v=20261101-modal-layout");

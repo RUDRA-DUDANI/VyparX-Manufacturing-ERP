@@ -1,0 +1,491 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>VyparX ERP - Sign In</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+  <link rel="stylesheet" href="../css/loginpage.css?v=20261101-modal-layout" />
+    <link rel="icon" type="image/png" href="../assets/logo.png" />
+  </head>
+
+  <body>
+    <div class="page">
+      <!-- =========================
+       LEFT BRAND PANEL
+  ========================== -->
+
+      <section class="brand-panel">
+        <div class="logo"><img src="../assets/logo.png" alt="VX Logo" style="width:70px;height:70px;object-fit:contain;padding-top:30px;">VYPAR<span>X</span></div>
+
+        <div class="brand-content">
+          <h1>
+            One Connected ERP.<br />
+            <span>Built Around Your Business.</span>
+          </h1>
+
+          <p>
+            Manage your business operations, customers, sales, purchasing,
+            production, transport and accounting from one connected ERP
+            platform.
+          </p>
+
+          <div class="trust-points">
+            <div class="trust-item">
+              <div class="trust-icon">✓</div>
+              Secure business management
+            </div>
+
+            <div class="trust-item">
+              <div class="trust-icon">✓</div>
+              Centralized business data
+            </div>
+
+            <div class="trust-item">
+              <div class="trust-icon">✓</div>
+              Role-based access control
+            </div>
+
+            <div class="trust-item">
+              <div class="trust-icon">✓</div>
+              Designed for growing businesses
+            </div>
+          </div>
+        </div>
+
+        <div class="copyright">© 2026 VyparX ERP. All rights reserved.</div>
+      </section>
+
+      <!-- =========================
+       RIGHT LOGIN PANEL
+  ========================== -->
+
+      <section class="form-panel">
+        <div class="login-container">
+          <div class="form-heading">
+            <div class="small-title">VYPARX ERP</div>
+
+            <h2>Welcome Back</h2>
+
+            <p>Sign in to access your business dashboard.</p>
+          </div>
+
+          <form id="loginForm" novalidate>
+            <!-- EMAIL -->
+
+            <div class="form-group">
+              <label for="email"> Email Address </label>
+
+              <input
+                type="email"
+                id="email"
+                class="input"
+                placeholder="Enter your email"
+                autocomplete="email"
+              />
+
+              <div id="emailError" class="field-error">
+                Please enter a valid email address.
+              </div>
+            </div>
+
+            <!-- PASSWORD -->
+
+            <div class="form-group">
+              <label for="password"> Password </label>
+
+              <div class="input-wrapper">
+                <input
+                  type="password"
+                  id="password"
+                  class="input password-input"
+                  placeholder="Enter your password"
+                  autocomplete="current-password"
+                />
+
+                <button
+                  type="button"
+                  class="password-toggle"
+                  id="passwordToggle"
+                >
+                  Show
+                </button>
+              </div>
+
+              <div id="capsWarning" class="caps-warning">⚠ Caps Lock is ON</div>
+
+              <!-- PASSWORD REQUIREMENTS -->
+
+              <div class="password-requirements">
+                <div class="password-requirements-title">
+                  Password must contain:
+                </div>
+
+                <div class="requirements-list">
+                  <div class="requirement" id="reqLength">
+                    <span class="requirement-icon">✓</span>
+                    8+ characters
+                  </div>
+
+                  <div class="requirement" id="reqUpper">
+                    <span class="requirement-icon">✓</span>
+                    Uppercase letter
+                  </div>
+
+                  <div class="requirement" id="reqLower">
+                    <span class="requirement-icon">✓</span>
+                    Lowercase letter
+                  </div>
+
+                  <div class="requirement" id="reqNumber">
+                    <span class="requirement-icon">✓</span>
+                    Number
+                  </div>
+
+                  <div class="requirement" id="reqSpecial">
+                    <span class="requirement-icon">✓</span>
+                    Special character
+                  </div>
+                </div>
+              </div>
+
+              <div id="passwordError" class="field-error">
+                Please complete all password requirements.
+              </div>
+            </div>
+
+            <!-- ROLE -->
+
+            <div class="form-group">
+              <label for="role"> Role </label>
+
+              <select id="role" class="select">
+                <option value="">Select your role</option>
+                <option value="Admin">Admin</option>
+                <option value="CRM">CRM</option>
+                <option value="Sales">Sales</option>
+                <option value="Purchase">Purchase</option>
+                <option value="Inventory">Inventory</option>
+                <option value="Production">Production</option>
+                <option value="Quality Control">Quality Control</option>
+                <option value="Transport">Transport</option>
+                <option value="Employee Management">Employee Management</option>
+                <option value="Accounting & Finance">Accounting & Finance</option>
+              </select>
+
+              <div id="roleError" class="field-error">
+                Please select your role.
+              </div>
+            </div>
+
+            <!-- OPTIONS -->
+
+            <div class="form-options">
+              <label class="remember">
+                <input type="checkbox" id="rememberMe" />
+                Remember me
+              </label>
+
+              <button type="button" class="forgot" id="forgotPassword">
+                Forgot Password?
+              </button>
+            </div>
+
+            <!-- SIGN IN -->
+
+            <button type="submit" class="signin-btn" id="signinBtn">
+              Sign In
+            </button>
+
+            <!-- REGISTRATION -->
+
+            <div class="registration-link">
+              Don't have an account?
+
+              <a href="registation.html" class="registration-btn">
+                Registration
+              </a>
+            </div>
+
+            <div class="security-note">
+              Your account and business information are protected with secure
+              access controls.
+            </div>
+          </form>
+        </div>
+      </section>
+    </div>
+
+    <!-- =========================
+     FORGOT PASSWORD MODAL
+========================== -->
+
+    <div class="modal-overlay" id="forgotModal">
+      <div class="modal">
+        <button class="modal-close" id="forgotClose" type="button">×</button>
+
+        <h3>Forgot Password?</h3>
+
+        <p class="modal-description">
+          Enter your registered email address and we will help you reset your
+          password.
+        </p>
+
+        <div class="form-group">
+          <label for="resetEmail"> Email Address </label>
+
+          <input
+            type="email"
+            id="resetEmail"
+            class="input"
+            placeholder="Enter your email"
+          />
+
+          <div id="resetError" class="field-error">
+            Please enter a valid email address.
+          </div>
+        </div>
+
+        <button type="button" class="signin-btn" id="resetBtn">
+          Send Reset Link
+        </button>
+      </div>
+    </div>
+
+    <!-- =========================
+     REGISTRATION MODAL
+========================== -->
+
+    <div class="modal-overlay" id="registrationModal">
+      <div class="modal">
+        <button class="modal-close" id="registrationClose" type="button">
+          ×
+        </button>
+
+        <h3>Register for VyparX ERP</h3>
+
+        <p class="modal-description">
+          Create your business account in a few simple steps.
+        </p>
+
+        <!-- STEPS -->
+
+        <div class="registration-steps">
+          <div class="step active" id="stepIndicator1">
+            <div class="step-circle">1</div>
+            <div class="step-line"></div>
+          </div>
+
+          <div class="step" id="stepIndicator2">
+            <div class="step-circle">2</div>
+            <div class="step-line"></div>
+          </div>
+
+          <div class="step" id="stepIndicator3">
+            <div class="step-circle">3</div>
+          </div>
+        </div>
+
+        <!-- STEP 1 -->
+
+        <div class="registration-step-content active" id="registrationStep1">
+          <div class="registration-grid">
+            <div class="form-group">
+              <label>Name</label>
+
+              <input
+                type="text"
+                id="regName"
+                class="input"
+                placeholder="Name"
+              />
+            </div>
+
+            <div class="form-group">
+              <label>Email</label>
+
+              <input
+                type="email"
+                id="regEmail"
+                class="input"
+                placeholder="Email"
+              />
+            </div>
+
+            <div class="form-group">
+              <label>Phone</label>
+
+              <input
+                type="tel"
+                id="regPhone"
+                class="input"
+                placeholder="Phone"
+              />
+            </div>
+
+            <div class="form-group">
+              <label>Password</label>
+
+              <input
+                type="password"
+                id="regPassword"
+                class="input"
+                placeholder="Create password"
+              />
+            </div>
+          </div>
+
+          <div class="registration-actions">
+            <button
+              type="button"
+              class="primary-btn"
+              onclick="nextRegistrationStep(1)"
+            >
+              Next
+            </button>
+          </div>
+        </div>
+
+        <!-- STEP 2 -->
+
+        <div class="registration-step-content" id="registrationStep2">
+          <div class="registration-grid">
+            <div class="form-group" style="grid-column: 1 / -1">
+              <label>Company Name</label>
+
+              <input
+                type="text"
+                id="companyName"
+                class="input"
+                placeholder="Company Name"
+              />
+            </div>
+
+            <div class="form-group">
+              <label>Business Type</label>
+
+              <select id="businessType" class="select">
+                <option value="">Select business type</option>
+
+                <option>Trading</option>
+                <option>Manufacturing</option>
+                <option>Retail</option>
+                <option>Wholesale</option>
+                <option>Service</option>
+                <option>Other</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>City</label>
+
+              <input type="text" id="city" class="input" placeholder="City" />
+            </div>
+          </div>
+
+          <div class="registration-actions">
+            <button
+              type="button"
+              class="secondary-btn"
+              onclick="previousRegistrationStep(2)"
+            >
+              Back
+            </button>
+
+            <button
+              type="button"
+              class="primary-btn"
+              onclick="nextRegistrationStep(2)"
+            >
+              Next
+            </button>
+          </div>
+        </div>
+
+        <!-- STEP 3 -->
+
+        <div class="registration-step-content" id="registrationStep3">
+          <div class="form-group">
+            <label> Primary Department / Role </label>
+
+            <select id="registrationRole" class="select">
+              <option value="">Select role</option>
+
+              <option>ADMIN</option>
+              <option>CRM Department</option>
+              <option>Sales Department</option>
+              <option>Purchase and Trading Department</option>
+              <option>Production Department</option>
+              <option>Transport</option>
+              <option>Accounting Department</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label> Business Requirements </label>
+
+            <textarea
+              id="requirements"
+              class="input"
+              style="height: 100px; padding-top: 14px; resize: none"
+              placeholder="Tell us about your business requirements..."
+            ></textarea>
+          </div>
+
+          <div class="registration-actions">
+            <button
+              type="button"
+              class="secondary-btn"
+              onclick="previousRegistrationStep(3)"
+            >
+              Back
+            </button>
+
+            <button
+              type="button"
+              class="primary-btn"
+              onclick="completeRegistration()"
+            >
+              Complete Registration
+            </button>
+          </div>
+        </div>
+
+        <!-- SUCCESS -->
+
+        <div class="registration-success" id="registrationSuccess">
+          <div class="success-icon">✓</div>
+
+          <h3>Registration Successful</h3>
+
+          <p>
+            Your VyparX ERP registration has been submitted successfully. You
+            can now continue with your account setup.
+          </p>
+
+          <br />
+
+          <button
+            type="button"
+            class="primary-btn"
+            style="width: 100%"
+            onclick="closeRegistration()"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script src="../javascript/auth.js"></script>
+    <script src="../javascript/loginpage.js"></script>
+  </body>
+</html>

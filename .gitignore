@@ -1,0 +1,28 @@
+# Secrets
+.env
+.env.*
+!.env.example
+source/secrets/
+
+# Virtual environments
+.venv/
+venv/
+**/.venv/
+**/venv/
+
+# Database files
+*.sqlite3
+*.db
+
+# QA backups
+.qa/backups/
+
+# Archives
+*.zip
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Node modules
+node_modules/
