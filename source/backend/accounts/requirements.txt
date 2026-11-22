@@ -3,3 +3,4 @@ djangorestframework>=3.15,<3.16
 firebase-admin>=6.5,<7
 python-dotenv>=1.0,<2
 cloudinary>=1.40,<2
+gunicorn>=23,<24
