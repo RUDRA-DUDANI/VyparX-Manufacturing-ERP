@@ -6,7 +6,7 @@
 (function (global) {
   "use strict";
 
-  const API_BASE = (global.VYPARX_API_BASE || "").replace(/\/+$/, "");
+  const API_BASE = "https://vyparx-manufacturing-erp.onrender.com";
   const SESSION_KEY = "vyparx_secure_session";
   const USER_CACHE_KEY = "vyparx_company_users_cache";
 
