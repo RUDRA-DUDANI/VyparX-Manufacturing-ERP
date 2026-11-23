@@ -4,8 +4,7 @@
 
 - Firebase Authentication manages user credentials and identity.
 - Cloud Firestore stores ERP business records. Django REST Framework exposes the authenticated APIs and applies company and role checks.
-- Module records are in top-level Firestore collections such as `production`, `sales`, `inventory`, `accounting`, and `quotations`. Each record carries a `companyId`; every read and write must enforce it. These are shared collections, not company subcollections.
-- Company and user metadata use top-level `companies/{companyId}`, `users/{firebaseUid}`, and `members/{firebaseUid}` documents. Workflow task and alert records are also top-level, with company ownership fields.
+- Business records use company scoped paths such as `companies/{companyId}/sales/{recordId}`. Memberships, tasks, alerts, counters, and workflow reviews are company subcollections. Firebase user metadata remains in `users/{firebaseUid}`.
 - SQLite is only for Django framework internals such as sessions and content types; it is not the ERP business database.
 - Cloudinary and Resend are optional integrations configured with server-side environment variables. Uploads require Cloudinary configuration; email delivery is skipped if Resend is not configured.
 
@@ -25,11 +24,14 @@ The Firebase Admin SDK has elevated access and bypasses Firestore client securit
    .\.venv\Scripts\Activate.ps1
    pip install -r accounts\requirements.txt
    python manage.py check
-   python manage.py migrate
    python manage.py runserver 8000
    ```
 
 6. Open `http://127.0.0.1:8000/html/landing.html`.
+
+### Existing Firestore data cutover
+
+Before deploying the company-subcollection repository against an existing project, run `python manage.py migrate_firestore_tenants` once. It copies records with a `companyId` from the former flat collections into the matching company subcollections, preserves document IDs, and leaves existing destination documents untouched. Take a Firestore export first and verify the command summary. The copier does not delete legacy documents.
 
 ## Production deployment
 

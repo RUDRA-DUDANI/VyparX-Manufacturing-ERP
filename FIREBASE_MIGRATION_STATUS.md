@@ -1,19 +1,24 @@
-# Firebase / Cloudinary Migration Status
+# Firestore migration status
 
-## Implemented in this update
-- Removed MySQL configuration and `mysqlclient` dependency.
-- Django uses SQLite only for framework internals; VyaparX business API records are designed to be stored in Firestore.
-- Added Firestore repository and Firestore-backed APIs for registration/company records, user memberships/roles, department heads, tasks, alerts, and generic module records.
-- Firebase ID token verification now resolves role and company membership from Firestore.
-- Added company-scoped Cloudinary upload API for image/PDF attachments.
-- Added frontend helper methods for module CRUD and authenticated file upload.
-- Updated the Admin header profile area to show the registered company name only.
-- Added `.env.example`, setup documentation, and Firestore client rules that deny direct browser data access.
+## Backend data architecture
 
-## Important work still required before claiming all ERP data is migrated
-The existing CRM, Sales, Purchase, Inventory, Production, Transport, and Accounting screens contain demo/in-memory state and legacy attachment flows. This update adds Firestore APIs but does not fully replace every module's create/edit/delete handlers with Firestore calls. A feature is not Firestore-persistent until its frontend workflow calls the API and reads the saved record back. Do not use this package as a production deployment until that module-by-module integration and end-to-end testing is completed.
+- Django REST Framework remains the API layer and Firebase Authentication remains the identity provider.
+- Authenticated requests verify the Firebase ID token, then load the active Firebase UID, user document, company, and membership from Firestore. The company and membership are checked again on each cache miss; the identity metadata cache is limited to ten seconds.
+- Business records are stored under `companies/{companyId}/{module}/{recordId}`. Memberships, tasks, alerts, counters, and material planning reviews are also company scoped. `users/{uid}` stores Firebase user metadata only.
+- The registration path validates required fields, email, password confirmation and strength, and GSTIN. It creates the Firebase Auth user and atomically creates the Firestore company, user, Admin membership, and GSTIN uniqueness key. If Firestore creation fails, it attempts to delete the Firebase Auth user.
+- REST API persistence is Firestore based. The obsolete ORM-backed serializers were replaced with normalization helpers, and `accounts.views` now re-exports the Firestore views.
+- Admin has operational read access for reporting. The default API permission guard blocks Admin writes to CRM, Sales, Purchase, Inventory, Production, Transport, and Accounting APIs. Admin user/company settings, department heads, tasks, and catalog administration remain available.
 
-- Existing browser-generated print/PDF downloads are not automatically archived to Cloudinary; uploaded image/PDF attachments are sent through the Cloudinary API.
-- Cloudinary uploads require the three Cloudinary values in the backend `.env`.
-- Firestore requires a private Firebase Admin service-account JSON file configured outside the source archive.
-- Static syntax checks passed. Django runtime checks/tests could not be run in this build environment because Django/DRF/Firebase Admin/Cloudinary dependencies are not installed here.
+## Existing Firestore data
+
+For deployments with the former flat Firestore layout, take an export and run `python manage.py migrate_firestore_tenants` before deploying the tenant-scoped reader. The command copies company-owned documents while preserving their IDs and leaves existing legacy documents in place. Review copied/skipped counts and confirm representative records before cutover.
+
+## Storage boundary
+
+SQLite remains configured only as Django framework infrastructure. It is not used for ERP business records. Firestore is the authoritative application data store. Firebase client rules deny direct browser writes; all business access goes through the authenticated backend.
+
+## Deployment and validation
+
+Configure Firebase Admin credentials for the same project as the frontend Firebase Auth app. The Firestore Admin client requires server-side credentials and bypasses client security rules, so company scoping and authorization in the API remain mandatory. Firestore compound indexes may be needed if future queries add multiple filter/order clauses; the current tenant collection scans and single-field lookups use automatic indexes.
+
+No live Firebase migration or browser smoke test has been run from this workspace. A staging cutover should validate registration/rollback, membership revocation, cross-company record isolation, each module's CRUD/workflow, and Admin write denial before production deployment.

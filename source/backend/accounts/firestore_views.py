@@ -28,7 +28,7 @@ from .firestore_store import (
     get_identity, list_members, list_module_records, get_module_record, save_module_record,
     list_collection, save_collection_record, now_iso, clean, firestore_safe,
 )
-from .models import AppUser, Company, Role, Module, MembershipStatus, TaskStatus
+from .models import Role, Module, MembershipStatus, TaskStatus
 from .permissions import IsCompanyAdmin, user_can_access_module
 from .serializers import normalize_role, flatten_registration_payload, GSTIN_RE
 from .welcome_email import queue_welcome_email
@@ -184,9 +184,12 @@ class RegisterView(APIView):
             return Response({"error": "Required fields are missing.", "fields": {key: "This field is required." for key in missing}}, status=400)
         if not re.fullmatch(r"[^\s@]+@[^\s@]+\.[^\s@]+", str(data.get("email") or "").strip()):
             return Response({"error": "Enter a valid email address.", "fields": {"email": "Enter a valid email address."}}, status=400)
-        if Company.objects.filter(email__iexact=str(data["email"]).strip()).exists():
-            return Response({"error": "A company is already registered with this email.", "fields": {"email": "This email is already registered."}}, status=409)
         try:
+            company_email_matches = (get_db().collection("companies")
+                                     .where("email", "==", str(data["email"]).strip().lower())
+                                     .limit(1).stream())
+            if next(iter(company_email_matches), None) is not None:
+                return Response({"error": "A company is already registered with this email.", "fields": {"email": "This email is already registered."}}, status=409)
             if user_ref_by_email_exists(str(data["email"]).strip().lower()):
                 return Response({"error": "An account with this email already exists.", "fields": {"email": "This email is already registered."}}, status=409)
         except FirestoreNotConfigured as exc:
@@ -201,6 +204,18 @@ class RegisterView(APIView):
         gstin = (data.get("gstin") or "").upper().strip()
         if gstin and not GSTIN_RE.match(gstin):
             return Response({"error": "Enter a valid GSTIN."}, status=400)
+        if gstin:
+            try:
+                gstin_matches = (get_db().collection("companies")
+                                 .where("gstin", "==", gstin).limit(1).stream())
+                if next(iter(gstin_matches), None) is not None:
+                    return Response({"error": "A company is already registered with this GSTIN.",
+                                     "fields": {"gstin": "This GSTIN is already registered."}}, status=409)
+            except FirestoreNotConfigured as exc:
+                return Response({"error": str(exc)}, status=503)
+            except Exception:
+                logger.exception("Unable to perform GSTIN duplicate check")
+                return Response({"error": "Unable to check GSTIN availability right now."}, status=503)
         email = data["email"].strip().lower()
         firebase_user = None
         company_id = str(uuid.uuid4())
@@ -229,6 +244,13 @@ class RegisterView(APIView):
                           "updatedAt": timestamp}
             # Commit the related business records in one Firestore batch.
             batch = db.batch()
+            if gstin:
+                # The deterministic key closes the race between parallel
+                # registrations that pass the advisory duplicate query.
+                gstin_key = hashlib.sha256(gstin.encode("ascii")).hexdigest()
+                batch.create(db.collection("registrationKeys").document(f"gstin-{gstin_key}"),
+                             {"kind": "gstin", "value": gstin, "companyId": company_id,
+                              "createdAt": timestamp})
             batch.set(company_ref(company_id), company)
             batch.set(user_ref(uid), user)
             batch.set(membership_ref(company_id, uid), membership)
@@ -2832,6 +2854,7 @@ class ModuleDataView(APIView):
 
         if (
             not self._allowed(request, module_name)
+            and request.user.membership.role != Role.ADMIN
             and not business_accounting_lookup
             and not sales_customer_lookup
             and not sales_quote_lookup

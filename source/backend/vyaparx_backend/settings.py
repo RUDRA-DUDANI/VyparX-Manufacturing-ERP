@@ -1,4 +1,4 @@
-import os
+﻿import os
 import sys
 from pathlib import Path
 from dotenv import load_dotenv
@@ -85,7 +85,10 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": ["accounts.authentication.FirebaseAuthentication"],
-    "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.IsAuthenticated"],
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.IsAuthenticated",
+        "accounts.permissions.AdminDailyOperationsGuard",
+    ],
 }
 
 # Production defaults assume the public app is HTTPS. A TLS-terminating proxy
@@ -158,7 +161,7 @@ RESEND_FROM_EMAIL = os.environ.get("RESEND_FROM_EMAIL", "")
 RESEND_FROM_NAME = os.environ.get("RESEND_FROM_NAME", "VyaparX ERP")
 
 # Public application origin used for welcome-email CTA and logo links.
-# Example: https://app.vyparx.com — never invented at runtime.
+# Example: https://app.vyparx.com â€” never invented at runtime.
 APP_PUBLIC_URL = os.environ.get("APP_PUBLIC_URL", "")
 # Support contact shown in welcome-email security notes.
 SUPPORT_EMAIL = os.environ.get("SUPPORT_EMAIL", "support@vyparx.com")

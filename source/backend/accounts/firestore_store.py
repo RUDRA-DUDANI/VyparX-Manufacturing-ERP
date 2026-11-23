@@ -104,17 +104,14 @@ def firestore_safe(value):
 
 
 # ---------------------------------------------------------------------------
-# Firestore layout (production-ready, one top-level collection per concern):
+# Firestore layout (tenant scoped business data):
 #
 #   companies/{companyId}                       -> registration / company profile
 #   users/{uid}                                 -> registered user identity
-#   members/{docId}                             -> role/membership (companyId field)
-#   crm|sales|purchase|inventory|production|
-#   transport|accounting|quotations|catalog     -> one top-level collection per
-#                                                  ERP module; every document
-#                                                  carries companyId
-#   tasks/{docId}, alerts/{docId}               -> admin collaboration (companyId)
-#   counters/{docId}                            -> {companyId}:{module}:{counter}
+#   companies/{companyId}/{module}/{recordId}
+#   companies/{companyId}/memberships/{uid}
+#   companies/{companyId}/tasks/{taskId}, alerts/{alertId}, counters/{counterId}
+#   users/{uid}
 # ---------------------------------------------------------------------------
 
 MODULE_COLLECTIONS = {
@@ -133,8 +130,8 @@ def _module_collection(module):
 
 
 def module_records_ref(company_id, module):
-    """Top-level collection reference holding one module's business records."""
-    return get_db().collection(_module_collection(module))
+    """Tenant-scoped module collection; IDs are unique within a company."""
+    return company_ref(company_id).collection(_module_collection(module))
 
 
 def module_record_ref(company_id, module, record_id):
@@ -144,26 +141,25 @@ def module_record_ref(company_id, module, record_id):
 
 def module_counter_ref(company_id, module, counter_name):
     """Company-scoped display-number counter inside the shared counters collection."""
-    doc_id = f"{company_id}:{_module_collection(module)}:{counter_name}"
-    return get_db().collection("counters").document(doc_id)
+    doc_id = f"{_module_collection(module)}:{counter_name}"
+    return company_ref(company_id).collection("counters").document(doc_id)
 
 
 def material_planning_reviews_ref(company_id):
-    """Top-level review-history collection; every document carries companyId."""
-    return get_db().collection("materialPlanningReviews")
+    return company_ref(company_id).collection("materialPlanningReviews")
 
 
 def members_ref(company_id):
     """Top-level members collection; every document carries companyId."""
-    return get_db().collection("members")
+    return company_ref(company_id).collection("memberships")
 
 
 def tasks_ref(company_id):
-    return get_db().collection("tasks")
+    return company_ref(company_id).collection("tasks")
 
 
 def alerts_ref(company_id):
-    return get_db().collection("alerts")
+    return company_ref(company_id).collection("alerts")
 
 
 def company_ref(company_id):
@@ -307,15 +303,14 @@ def delete_module_record(company_id, module, record_id, soft=True):
 
 def list_collection(company_id, collection, limit=500):
     name = str(collection or "").strip().lower()
-    docs = (get_db().collection(name)
-            .where("companyId", "==", str(company_id))
+    docs = (company_ref(company_id).collection(name)
             .limit(min(max(int(limit), 1), 500)).stream())
     return [clean({**(snap.to_dict() or {}), "id": snap.id}) for snap in docs]
 
 
 def save_collection_record(company_id, collection, record_id, data):
     name = str(collection or "").strip().lower()
-    ref = get_db().collection(name).document(str(record_id))
+    ref = company_ref(company_id).collection(name).document(str(record_id))
     current = ref.get()
     payload = dict(data)
     payload.update({"id": str(record_id), "companyId": str(company_id), "updatedAt": now_iso()})
