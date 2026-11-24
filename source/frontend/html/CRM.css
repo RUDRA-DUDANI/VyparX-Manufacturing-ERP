@@ -948,6 +948,11 @@
 
 /* Print quotation preview and the currently-filtered CRM report */
 @media print {
+  @page {
+    size: A4 portrait;
+    margin: 10mm;
+  }
+
   body.crm-report-printing > * {
     visibility: hidden !important;
   }
@@ -1061,11 +1066,59 @@
   }
 
   .crm-document {
+    box-sizing: border-box !important;
     width: 100% !important;
     min-height: 0 !important;
     margin: 0 !important;
-    padding: 8mm !important;
+    padding: 5mm !important;
     box-shadow: none !important;
+    overflow: visible !important;
+    font: 9pt/1.4 Arial, sans-serif !important;
+    color: #111 !important;
+  }
+
+  /* The shared ERP print rule hides every page <header>. Restore the
+     quotation's company/document heading without affecting other modules. */
+  .crm-preview-mask .crm-doc-head {
+    display: flex !important;
+    visibility: visible !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  .crm-document table {
+    width: 100% !important;
+    table-layout: fixed !important;
+    font-size: 7.5pt !important;
+    border-collapse: collapse !important;
+  }
+
+  .crm-document th,
+  .crm-document td {
+    padding: 3pt 4pt !important;
+    overflow-wrap: anywhere !important;
+    word-break: normal !important;
+  }
+
+  .crm-doc-items th:nth-child(1), .crm-doc-items td:nth-child(1) { width: 6%; }
+  .crm-doc-items th:nth-child(2), .crm-doc-items td:nth-child(2) { width: 27%; }
+  .crm-doc-items th:nth-child(3), .crm-doc-items td:nth-child(3) { width: 10%; }
+  .crm-doc-items th:nth-child(4), .crm-doc-items td:nth-child(4) { width: 7%; }
+  .crm-doc-items th:nth-child(5), .crm-doc-items td:nth-child(5) { width: 7%; }
+  .crm-doc-items th:nth-child(6), .crm-doc-items td:nth-child(6) { width: 13%; }
+  .crm-doc-items th:nth-child(7), .crm-doc-items td:nth-child(7) { width: 10%; }
+  .crm-doc-items th:nth-child(8), .crm-doc-items td:nth-child(8) { width: 20%; }
+
+  .crm-document thead {
+    display: table-header-group !important;
+  }
+
+  .crm-document tr,
+  .crm-doc-gst,
+  .crm-doc-amounts,
+  .crm-doc-sign {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
   }
 
   .crm-document table {

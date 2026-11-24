@@ -2418,8 +2418,11 @@ class ModuleDataView(APIView):
         phone = re.sub(r"\D", "", str(original.get("ph") or original.get("phone") or ""))
         designation = str(original.get("des") or original.get("designation") or "").strip()
         joining_date = str(original.get("jd") or original.get("joiningDate") or "").strip()
+        status = str(original.get("status") or (current or {}).get("status") or "ACTIVE").upper()
         if not name or not email or not designation or not joining_date or not re.fullmatch(r"\d{10}", phone):
             return Response({"error": "Enter the member name, email, 10-digit phone, designation and joining date."}, status=400)
+        if status not in {"ACTIVE", "INACTIVE"}:
+            return Response({"error": "Account status must be Active or Inactive."}, status=400)
         if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", joining_date):
             return Response({"error": "Joining date must use YYYY-MM-DD."}, status=400)
         try:
@@ -2451,8 +2454,8 @@ class ModuleDataView(APIView):
             "jd": joining_date,
             "eid": str(original.get("eid") or record_id)[:128],
             "r": "Employee",
-            "status": "ACTIVE",
-            "isActive": True,
+            "status": status,
+            "isActive": status == "ACTIVE",
             "departmentKey": module_name,
             "department": config["department"],
             "departmentHeadId": owner_id,
@@ -3038,6 +3041,16 @@ class ModuleDataView(APIView):
         team_error = self._validate_team_member(request, module_name, data)
         if team_error:
             return team_error
+        if module_name == "crm" and data.get("recordType") == "lead":
+            assigned_id = str(data.get("assignedToId") or "").strip()
+            assigned = next((row for row in list_module_records(request.user.company.id, "crm")
+                             if row.get("recordType") == "teamMember"
+                             and str(row.get("id") or "") == assigned_id
+                             and not row.get("isDeleted") and row.get("isActive", True)
+                             and str(row.get("status") or "ACTIVE").upper() == "ACTIVE"), None)
+            if not assigned:
+                return Response({"error": "Select an active CRM team member for this lead."}, status=400)
+            data["by"] = str(assigned.get("n") or assigned.get("name") or "")
         record_id = str(data.get("id") or uuid.uuid4())
         if module_name == "crm" and data.get("recordType") == "lead":
             existing_ref = self._module_record_ref(request.user.company.id, "crm", record_id)
@@ -3307,7 +3320,9 @@ class ModuleDataView(APIView):
                 invalid = self._validate_quotation(request.user.company.id, data)
                 if invalid:
                     return invalid
-            created_at = str(data.get("createdAt") or now_iso())
+            # Creation timestamps are server-owned. They remain immutable on
+            # updates (PUT strips client createdAt and merges into this row).
+            created_at = now_iso()
             payload = {
                 **data,
                 "id": record_id,
@@ -3316,6 +3331,8 @@ class ModuleDataView(APIView):
                 "createdAt": created_at,
                 "updatedAt": now_iso(),
             }
+            if module_name == "quotations" and data.get("recordType") == "quotation":
+                payload["generatedAt"] = created_at
             record_ref = self._module_record_ref(request.user.company.id, module_name, record_id)
             payload["createdBy"] = str(request.user.app_user.firebase_uid)
             if (module_name == "accounting" and payload.get("recordType") == "accountingEntry"
@@ -3465,6 +3482,17 @@ class ModuleDataView(APIView):
             team_error = self._validate_team_member(request, module_name, data, current_record)
             if team_error:
                 return team_error
+            if module_name == "crm" and current_record.get("recordType") == "lead":
+                assigned_id = str(data.get("assignedToId") or current_record.get("assignedToId") or "").strip()
+                assigned = next((row for row in list_module_records(request.user.company.id, "crm")
+                                 if row.get("recordType") == "teamMember"
+                                 and str(row.get("id") or "") == assigned_id
+                                 and not row.get("isDeleted") and row.get("isActive", True)
+                                 and str(row.get("status") or "ACTIVE").upper() == "ACTIVE"), None)
+                if not assigned:
+                    return Response({"error": "Select an active CRM team member for this lead."}, status=400)
+                data["assignedToId"] = assigned_id
+                data["by"] = str(assigned.get("n") or assigned.get("name") or "")
             if module_name == "purchase" and current_record.get("recordType") == "purchaseOrder":
                 _normalize_purchase_order_history(data)
             role = request.user.membership.role

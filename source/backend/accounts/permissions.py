@@ -10,32 +10,32 @@ MODULE_ROLE_MAP = {
     "team-attendance": {Role.ADMIN, Role.EMPLOYEE_MANAGEMENT},
     "communications": {Role.ADMIN, Role.CRM, Role.SALES, Role.PURCHASE, Role.INVENTORY, Role.PRODUCTION, Role.QUALITY_CONTROL, Role.TRANSPORT, Role.ACCOUNTING_FINANCE, Role.EMPLOYEE_MANAGEMENT},
     "tasks": {Role.ADMIN, Role.CRM, Role.SALES, Role.PURCHASE, Role.INVENTORY, Role.PRODUCTION, Role.QUALITY_CONTROL, Role.TRANSPORT, Role.ACCOUNTING_FINANCE, Role.EMPLOYEE_MANAGEMENT},
-    "crm": {Role.CRM},
-    "sales": {Role.SALES},
-    "sales-order-items-data": {Role.SALES},
-    "purchase-orders": {Role.PURCHASE},
-    "production-orders": {Role.PRODUCTION, Role.QUALITY_CONTROL},
-    "transport-delivery": {Role.TRANSPORT},
-    "accounting-payments": {Role.ACCOUNTING_FINANCE},
-    "purchase": {Role.PURCHASE},
+    "crm": {Role.ADMIN, Role.CRM},
+    "sales": {Role.ADMIN, Role.SALES},
+    "sales-order-items-data": {Role.ADMIN, Role.SALES},
+    "purchase-orders": {Role.ADMIN, Role.PURCHASE},
+    "production-orders": {Role.ADMIN, Role.PRODUCTION, Role.QUALITY_CONTROL},
+    "transport-delivery": {Role.ADMIN, Role.TRANSPORT},
+    "accounting-payments": {Role.ADMIN, Role.ACCOUNTING_FINANCE},
+    "purchase": {Role.ADMIN, Role.PURCHASE},
     # Accounting must be able to read purchase orders to create the linked
     # purchaseAccountingRequest records from the Accounting workspace.
-    "accounting": {Role.ACCOUNTING_FINANCE},
-    "inventory": {Role.INVENTORY},
-    "production": {Role.PRODUCTION, Role.QUALITY_CONTROL},
-    "transport": {Role.TRANSPORT},
-    "finance": {Role.ACCOUNTING_FINANCE},
-    "suppliers": {Role.PURCHASE},
-    "sales-order-items": {Role.SALES},
-    "purchase-production-material": {Role.PURCHASE, Role.PRODUCTION},
-    "customers": {Role.CRM, Role.SALES},
+    "accounting": {Role.ADMIN, Role.ACCOUNTING_FINANCE},
+    "inventory": {Role.ADMIN, Role.INVENTORY},
+    "production": {Role.ADMIN, Role.PRODUCTION, Role.QUALITY_CONTROL},
+    "transport": {Role.ADMIN, Role.TRANSPORT},
+    "finance": {Role.ADMIN, Role.ACCOUNTING_FINANCE},
+    "suppliers": {Role.ADMIN, Role.PURCHASE},
+    "sales-order-items": {Role.ADMIN, Role.SALES},
+    "purchase-production-material": {Role.ADMIN, Role.PURCHASE, Role.PRODUCTION},
+    "customers": {Role.ADMIN, Role.CRM, Role.SALES},
     # Quotations are shared between CRM, Sales, and Admin in one company scope.
-    "quotations": {Role.CRM, Role.SALES},
+    "quotations": {Role.ADMIN, Role.CRM, Role.SALES},
     # CRM may read the safe product catalog to prepare quotes. Only Admin and
     # Sales can maintain the catalog; the API enforces that on writes.
     "catalog": {Role.ADMIN, Role.SALES, Role.CRM},
-    "quality-control": {Role.QUALITY_CONTROL},
-    "employee-management": {Role.EMPLOYEE_MANAGEMENT},
+    "quality-control": {Role.ADMIN, Role.QUALITY_CONTROL},
+    "employee-management": {Role.ADMIN, Role.EMPLOYEE_MANAGEMENT},
 }
 
 
@@ -80,7 +80,7 @@ class IsCompanyAdmin(BasePermission):
 
 def user_can_access_module(user, module_name):
     membership = getattr(user, "membership", None)
-    if not membership or not membership.is_active:
+    if not membership or not getattr(membership, "is_active", True):
         return False
     allowed_roles = MODULE_ROLE_MAP.get(str(module_name).lower(), set())
     return membership.role in allowed_roles

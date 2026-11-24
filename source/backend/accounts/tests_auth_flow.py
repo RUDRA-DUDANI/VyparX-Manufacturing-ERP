@@ -79,6 +79,22 @@ class FakeDb:
         self.batches.append(batch)
         return batch
 
+    def collection(self, _name):
+        # Registration performs a company-email uniqueness query before it
+        # creates the company. The isolated fixture represents an empty store.
+        return FakeQuery()
+
+
+class FakeQuery:
+    def where(self, *_args, **_kwargs):
+        return self
+
+    def limit(self, _count):
+        return self
+
+    def stream(self):
+        return iter(())
+
 
 class FakeRef:
     def __init__(self, path):

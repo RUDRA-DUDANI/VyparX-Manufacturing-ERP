@@ -967,15 +967,24 @@ function detail(secs) {
 function crmMemberForm(member) {
   const isNew = !member;
   const current = member || { n: "", e: "", ph: "", des: "", jd: TODAY };
-  dlg(`<h3>${isNew ? "Add CRM team member" : "Edit CRM team member"}</h3><div class="fm"><label>Full name *<input class="in" id="crmMemberName" value="${esc(current.n)}"></label><label>Email *<input class="in" id="crmMemberEmail" type="email" value="${esc(current.e)}"></label><label>Phone *<input class="in" id="crmMemberPhone" inputmode="numeric" value="${esc(current.ph)}"></label><label>Designation *<input class="in" id="crmMemberDesignation" value="${esc(current.des)}"></label><label>Joining date *<input class="in" id="crmMemberDate" type="date" max="${TODAY}" value="${esc(current.jd || TODAY)}"></label></div>`, isNew ? "Add Member" : "Save Changes", () => {
+  dlg(`<h3>${isNew ? "Add CRM team member" : "Edit CRM team member"}</h3><div class="fm"><label>Full name *<input class="in" id="crmMemberName" value="${esc(current.n)}"></label><label>Email *<input class="in" id="crmMemberEmail" type="email" value="${esc(current.e)}"></label><label>Phone *<input class="in" id="crmMemberPhone" inputmode="numeric" value="${esc(current.ph)}"></label><label>Designation *<input class="in" id="crmMemberDesignation" value="${esc(current.des)}"></label><label>Joining date *<input class="in" id="crmMemberDate" type="date" max="${TODAY}" value="${esc(current.jd || TODAY)}"></label><label>Account status<select class="in" id="crmMemberStatus"><option value="ACTIVE" ${current.status !== "INACTIVE" ? "selected" : ""}>Active</option><option value="INACTIVE" ${current.status === "INACTIVE" ? "selected" : ""}>Inactive</option></select></label></div>`, isNew ? "Add Member" : "Save Changes", () => {
     if (!canManageTeam()) { toast("Only the CRM Department Head can manage CRM team members."); return false; }
     const n = $("#crmMemberName").value.trim(), e = $("#crmMemberEmail").value.trim().toLowerCase(), ph = $("#crmMemberPhone").value.trim(), des = $("#crmMemberDesignation").value.trim(), jd = $("#crmMemberDate").value;
     if (!n || !EM.test(e) || !PH.test(ph) || !des || !jd || jd > TODAY) { toast("Enter a valid name, email, 10-digit phone, designation and joining date."); return false; }
     if (TEAM.some((item) => item !== member && String(item.e || "").toLowerCase() === e)) { toast("This email already exists in the CRM team."); return false; }
-    const fields = { n, e, ph, des, jd };
-    if (isNew) TEAM.push(window.VyaparXShared.departmentTeam.createMember("crm", fields));
-    else Object.assign(member, fields);
-    render(); toast(isNew ? "Team member added." : "Team member updated.");
+    const fields = { n, e, ph, des, jd, status: $("#crmMemberStatus").value, isActive: $("#crmMemberStatus").value === "ACTIVE" };
+    const button = document.querySelector(".mask [data-ok]");
+    if (button) { button.disabled = true; button.textContent = "Saving…"; }
+    const save = isNew
+      ? window.VyaparXAuth.createModuleRecord("crm", window.VyaparXShared.departmentTeam.createMember("crm", fields))
+      : window.VyaparXAuth.saveModuleRecord("crm", { ...member, ...fields });
+    Promise.resolve(save).then((result) => {
+      if (!result?.record?.id) throw new Error("The server did not confirm the saved team member.");
+      TEAM = isNew ? [result.record, ...TEAM] : TEAM.map((item) => String(item.id) === String(member.id) ? result.record : item);
+      window.VyaparXShared?.records?.markPersisted("crm", "teamMember", result.record);
+      render(); toast(isNew ? "Team member added." : "Team member updated.");
+    }).catch((error) => { if (button) { button.disabled = false; button.textContent = isNew ? "Add Member" : "Save Changes"; } toast("Team member was not saved: " + error.message); });
+    return false;
   });
 }
 
@@ -1168,7 +1177,7 @@ const fView = (l) =>
 
   dlg(
 
-    `<h3>${n ? "Add lead" : "Edit " + l.id}</h3><div class="fm"><label>Name *<input class="in" id="fn" value="${esc(l.name)}"></label><label>Contact *<input class="in" id="fc" inputmode="numeric" placeholder="10-digit phone number" value="${esc(l.contact)}"></label><label>Email *<input class="in" id="fe" value="${esc(l.email)}"></label><label>Source *<select class="in" id="fs"><option value="">Select source</option>${opts(SRC, l.source)}</select></label><label>Requirement *<input class="in" id="fr" value="${esc(l.req)}"></label><label>Follow-up date<input class="in" type="date" id="ff" value="${l.fu}"></label><label>Assigned to *<select class="in" id="fa"><option value="">Select employee</option>${opts(TEAM.map((member) => member.n), l.by)}</select></label></div>${customHtml}`,
+    `<h3>${n ? "Add lead" : "Edit " + l.id}</h3><div class="fm"><label>Name *<input class="in" id="fn" value="${esc(l.name)}"></label><label>Contact *<input class="in" id="fc" inputmode="numeric" placeholder="10-digit phone number" value="${esc(l.contact)}"></label><label>Email *<input class="in" id="fe" value="${esc(l.email)}"></label><label>Source *<select class="in" id="fs"><option value="">Select source</option>${opts(SRC, l.source)}</select></label><label>Requirement *<input class="in" id="fr" value="${esc(l.req)}"></label><label>Follow-up date<input class="in" type="date" id="ff" value="${l.fu}"></label><label>Assigned to *<select class="in" id="fa"><option value="">${TEAM.some((member) => member.status !== "INACTIVE" && member.isActive !== false) ? "Select employee" : "No active team members available. Please add a team member first."}</option>${TEAM.filter((member) => member.status !== "INACTIVE" && member.isActive !== false).map((member) => `<option value="${esc(member.id)}" ${String(member.id) === String(l.assignedToId || "") || (!l.assignedToId && member.n === l.by) ? "selected" : ""}>${esc(member.n)}</option>`).join("")}</select></label></div>${customHtml}`,
 
     n ? "Add lead" : "Save changes",
 
@@ -1268,7 +1277,8 @@ const fView = (l) =>
 
           fu: $("#ff").value,
 
-          by: v("#fa"),
+          assignedToId: v("#fa"),
+          by: TEAM.find((member) => String(member.id) === v("#fa"))?.n || "",
 
         };
 
@@ -1722,6 +1732,7 @@ async function crmLoadSharedRecords(force = false) {
         window.VyaparXAuth.fetchModuleRecords("crm"),
       ]);
       const activeLeads = (crmRecords || []).filter((record) => record && (!record.recordType || String(record.recordType).toLowerCase() === "lead") && !record.isDeleted);
+      TEAM = (crmRecords || []).filter((record) => record?.recordType === "teamMember" && !record.isDeleted);
       LEADS = activeLeads;
       CRM_QUOTES = records.filter((record) => String(record.recordType || "").toLowerCase() === "quotation" && !record.isDeleted);
       CRM_TERMS = records.filter((record) => record.recordType === "template" && !record.isDeleted);
