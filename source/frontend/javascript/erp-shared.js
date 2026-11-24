@@ -902,6 +902,10 @@
       const session = global.VyaparXAuth?.getCurrentSession?.() || {};
       if (String(session.role || "").toLowerCase() === "admin") return true;
       const normalize = (value) => String(value || "").toLowerCase().replace(/[^a-z0-9]/g, "");
+      // CRM accounts are the CRM Department Head role. Older sessions and
+      // imported memberships can have an empty or differently labelled
+      // headDepartment even though the authenticated role is CRM.
+      if (String(moduleName || "").toLowerCase() === "crm" && normalize(session.role) === "crm") return true;
       const aliases = {
         crm: ["crm"], sales: ["salesorder", "sales"], purchase: ["purchasetrading", "purchase"],
         inventory: ["inventory"], production: ["production"], transport: ["transport"],

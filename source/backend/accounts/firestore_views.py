@@ -2406,7 +2406,12 @@ class ModuleDataView(APIView):
         actor = str(request.user.app_user.firebase_uid)
         is_admin = role == Role.ADMIN
         head_department = self._normalized_department(getattr(membership, "head_department", ""))
-        if not is_admin and (role not in config["roles"] or head_department not in config["head"]):
+        # The CRM RBAC role itself is the CRM Department Head role. Keep its
+        # records tenant scoped and owner scoped below, while allowing CRM
+        # heads whose legacy membership has no head_department value to manage
+        # their own CRM team records.
+        is_crm_head = module_name == "crm" and role == Role.CRM
+        if not is_admin and (role not in config["roles"] or (not is_crm_head and head_department not in config["head"])):
             return Response({"error": "Only this department's assigned head can manage its team members."}, status=403)
         existing_owner = str((current or {}).get("departmentHeadId") or "")
         if existing_owner and not is_admin and existing_owner != actor:
@@ -2895,7 +2900,9 @@ class ModuleDataView(APIView):
                     config = self.TEAM_MODULES[module_name]
                     actor = str(request.user.app_user.firebase_uid)
                     head_department = self._normalized_department(getattr(request.user.membership, "head_department", ""))
-                    can_view_team = (request.user.membership.role in config["roles"] and head_department in config["head"])
+                    is_crm_head = module_name == "crm" and request.user.membership.role == Role.CRM
+                    can_view_team = (request.user.membership.role in config["roles"]
+                                     and (is_crm_head or head_department in config["head"]))
                     records = [record for record in records
                                if record.get("recordType") != "teamMember"
                                or (can_view_team and str(record.get("departmentHeadId") or "") == actor
